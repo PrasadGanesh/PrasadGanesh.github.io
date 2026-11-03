@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import ThemeBoot from '../components/ThemeBoot.astro';
+import FontLoad from '../components/FontLoad.astro';
 import Header from '../components/Header.astro';
 import { site } from '../data/site';
 
@@ -41,6 +42,7 @@ const json = JSON.stringify(person).replace(/</g, '\\u003c');
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ThemeBoot />
+    <FontLoad />
     <Seo title={title} description={description} noindex={noindex} />
     {jsonLd && <script type="application/ld+json" set:html={json} />}
   </head>

@@ -32,3 +32,10 @@
   <circle class="p" r="4" style="offset-path:path('M310 200 L460 150');animation-delay:1.8s"></circle>
   <circle class="p" r="4" style="offset-path:path('M310 200 C380 200 380 230 460 230');animation-delay:3s"></circle>
 </svg>
+<script is:inline>
+  window.addEventListener("load", function () {
+    var diagram = document.querySelector(".sys");
+    if (!diagram || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    diagram.classList.add("is-live");
+  });
+</script>

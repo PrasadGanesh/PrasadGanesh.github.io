@@ -1,0 +1,38 @@
+<script is:inline>
+  (function () {
+    var done = false;
+    function preload(href) {
+      var link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "font";
+      link.type = "font/woff2";
+      link.crossOrigin = "anonymous";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+    function load() {
+      if (done) return;
+      done = true;
+      preload("/fonts/fraunces-latin-400.woff2");
+      preload("/fonts/fraunces-latin-400-italic.woff2");
+      var sheet = document.createElement("link");
+      sheet.rel = "stylesheet";
+      sheet.href = "/fonts/faces.css";
+      document.head.appendChild(sheet);
+    }
+    try {
+      var observer = new PerformanceObserver(function (list) {
+        if (!list.getEntries().length) return;
+        observer.disconnect();
+        load();
+      });
+      observer.observe({ type: "largest-contentful-paint", buffered: true });
+    } catch (err) {
+      load();
+    }
+    setTimeout(load, 3000);
+  })();
+</script>
+<noscript>
+  <link rel="stylesheet" href="/fonts/faces.css" />
+</noscript>
