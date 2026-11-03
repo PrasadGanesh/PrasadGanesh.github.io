@@ -5,15 +5,41 @@ import { nav, site } from '../data/site';
 <a class="skip" href="#content">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="/">{site.name}</a>
-  <nav class="nav" aria-label="Primary">
-    <ul>
-      {
-        nav.map((item) => (
-          <li>
-            <a href={item.href}>{item.label}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+  <div class="header-end">
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button
+      type="button"
+      class="theme-toggle"
+      data-theme-toggle
+      aria-pressed="true"
+      aria-label="Switch to light theme"
+    >
+      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path>
+      </svg>
+      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M16 3.2A8.5 8.5 0 1 0 20.8 14 7 7 0 0 1 16 3.2z"></path>
+      </svg>
+    </button>
+    <script is:inline>
+      (function () {
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (!btn || btn.dataset.bound === "1" || !window.__syncThemeToggle) return;
+        btn.dataset.bound = "1";
+        window.__syncThemeToggle();
+        btn.addEventListener("click", window.__toggleTheme);
+      })();
+    </script>
+  </div>
 </header>

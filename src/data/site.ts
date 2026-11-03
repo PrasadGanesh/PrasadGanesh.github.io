@@ -9,7 +9,6 @@ export const site = {
   medium: 'https://ganeshprasad227.medium.com',
   resume:
     'https://drive.google.com/file/d/15hS3R7N3NwGuQ6dq1THi9Q5rEtmKaW_3/view?usp=sharing',
-  themeColor: '#0e1320',
 } as const;
 
 export const nav = [

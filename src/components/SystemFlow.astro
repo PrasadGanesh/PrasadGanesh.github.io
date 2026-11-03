@@ -1,17 +1,3 @@
----
-const rows = [
-  ['REQ', 'sample'],
-  ['QUEUE', 'sample'],
-  ['API', 'sample'],
-  ['JOB', 'sample'],
-  ['ROW', 'sample'],
-  ['CACHE', 'sample'],
-  ['LOG', 'sample'],
-  ['ACK', 'sample'],
-];
-const tape = [...rows, ...rows];
----
-
 <figure class="stream">
   <div class="stream__toolbar">
     <p class="kicker">Sample data</p>
@@ -21,33 +7,28 @@ const tape = [...rows, ...rows];
       <span class="pause__off">Play sample animation</span>
     </label>
   </div>
-  <div class="stream__stage">
-    <svg viewBox="0 0 560 320" aria-hidden="true" focusable="false">
-      <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <rect x="36" y="118" width="110" height="64"></rect>
-        <rect x="226" y="118" width="110" height="64"></rect>
-        <rect x="416" y="118" width="110" height="64"></rect>
-        <path class="flow is-animated" d="M146 150H226"></path>
-        <path class="flow is-animated" d="M336 150H416"></path>
-        <path class="flow is-animated" d="M281 182v46H146"></path>
-        <path class="flow is-animated" d="M146 228H90v-46"></path>
-      </g>
-      <text x="91" y="155" text-anchor="middle">INGEST</text>
-      <text x="281" y="155" text-anchor="middle">SERVICE</text>
-      <text x="471" y="155" text-anchor="middle">STORE</text>
-    </svg>
-    <div class="tape" aria-hidden="true">
-      <ul class="tape__track is-animated">
-        {
-          tape.map(([channel, value]) => (
-            <li>
-              <span>{channel}</span>
-              <span>{value}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </div>
-  <figcaption>Sample data. A sketch of a system flow, not a live trace.</figcaption>
+  <svg viewBox="0 0 720 240" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="8" y="28" width="112" height="52"></rect>
+      <rect x="8" y="160" width="112" height="52"></rect>
+      <rect x="196" y="86" width="128" height="68"></rect>
+      <rect x="392" y="86" width="108" height="68"></rect>
+      <rect x="564" y="28" width="140" height="52"></rect>
+      <rect x="564" y="160" width="140" height="52"></rect>
+      <path class="flow is-animated" d="M120 54H156V120H196"></path>
+      <path class="flow is-animated" d="M120 186H156V120"></path>
+      <path class="flow is-animated" d="M324 120H392"></path>
+      <path class="flow is-animated" d="M500 120H532V54H564"></path>
+      <path class="flow is-animated" d="M532 120V186H564"></path>
+    </g>
+    <text x="64" y="58" text-anchor="middle">Source</text>
+    <text x="64" y="190" text-anchor="middle">Source</text>
+    <text x="260" y="128" text-anchor="middle">Pipeline</text>
+    <text x="446" y="128" text-anchor="middle">API</text>
+    <text x="634" y="58" text-anchor="middle">Service</text>
+    <text x="634" y="190" text-anchor="middle">Service</text>
+  </svg>
+  <figcaption>
+    Sample data. Sources flow through a pipeline and an API into services. Not a live trace.
+  </figcaption>
 </figure>

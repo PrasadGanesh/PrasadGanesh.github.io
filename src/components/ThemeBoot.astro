@@ -1,0 +1,49 @@
+<!--
+  Runs before first paint. Stored choice wins; otherwise the OS scheme applies
+  through CSS. theme-color values match --color-bg in src/styles/tokens.css.
+-->
+<script is:inline>
+  (function () {
+    var key = "theme";
+    var colors = { dark: "#0b1426", light: "#f6f1e7" };
+    function systemTheme() {
+      return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    function active() {
+      var set = document.documentElement.getAttribute("data-theme");
+      return set === "light" || set === "dark" ? set : systemTheme();
+    }
+    function paintThemeColor(theme) {
+      var tags = document.querySelectorAll('meta[name="theme-color"]');
+      if (!tags.length) return;
+      tags.forEach(function (tag) {
+        tag.setAttribute("content", colors[theme]);
+      });
+    }
+    window.__syncThemeToggle = function () {
+      var btn = document.querySelector("[data-theme-toggle]");
+      if (!btn) return;
+      var dark = active() === "dark";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      paintThemeColor(active());
+    };
+    window.__toggleTheme = function () {
+      var next = active() === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      document.documentElement.style.colorScheme = next;
+      try {
+        localStorage.setItem(key, next);
+      } catch (err) {}
+      window.__syncThemeToggle();
+    };
+    try {
+      var stored = localStorage.getItem(key);
+      if (stored === "light" || stored === "dark") {
+        document.documentElement.setAttribute("data-theme", stored);
+        document.documentElement.style.colorScheme = stored;
+        paintThemeColor(stored);
+      }
+    } catch (err) {}
+  })();
+</script>

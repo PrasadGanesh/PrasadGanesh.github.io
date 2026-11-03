@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Seo from '../components/Seo.astro';
+import ThemeBoot from '../components/ThemeBoot.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
@@ -36,9 +37,10 @@ const person = {
 const json = JSON.stringify(person).replace(/</g, '\\u003c');
 ---
 
-<html lang="en" data-theme="b">
+<html lang="en">
   <head>
     <Seo title={title} description={description} noindex={noindex} />
+    <ThemeBoot />
     {jsonLd && <script type="application/ld+json" set:html={json} />}
   </head>
   <body>
