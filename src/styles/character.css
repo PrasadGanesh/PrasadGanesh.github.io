@@ -4,78 +4,34 @@
    show the inline figure in each section instead. */
 
 .pin {
-  width: 200px;
-  height: 240px;
+  width: 320px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  height: auto;
   margin: 8px auto 0;
   pointer-events: none;
 }
 
-.pose {
+.ch {
   display: block;
   width: 100%;
-  height: 100%;
-  color: var(--text);
+  height: auto;
 }
 
-.pose .ink {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* Labels use the outline colour. Light accent and check colours are about 4:1 and stay off text. */
+.ch .t {
+  fill: var(--ch-outline);
+  font-family: var(--font-body);
 }
 
-.pose .fill {
-  fill: var(--panel);
-  stroke: var(--edge);
-  stroke-width: 2;
-}
-
-.pose .paper {
-  fill: var(--bg);
-  stroke: var(--edge);
-  stroke-width: 2;
-}
-
-.pose .amber {
-  fill: var(--amber);
-}
-
-.pose .amber-line {
-  fill: none;
-  stroke: var(--amber);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.pose .skin {
-  fill: var(--muted);
-}
-
-.pose .label {
-  fill: currentColor;
-  font: 600 13px var(--font-body);
-}
-
-.pose .arm,
-.pose .bead,
-.pose .watch-hand,
-.pose .slip,
-.pose .wave-arm {
+.ch .head,
+.ch .arm-l,
+.ch .arm-r,
+.ch .stopwatch-hand,
+.ch .wrench,
+.ch .wave,
+.ch .label-after {
   transform-box: view-box;
-}
-
-.pose .arm {
-  transform-origin: 96px 146px;
-}
-
-.pose .watch-hand {
-  transform-origin: 142px 78px;
-}
-
-.pose .wave-arm {
-  transform-origin: 118px 112px;
 }
 
 .cast {
@@ -97,7 +53,7 @@
     @media (prefers-reduced-motion: no-preference) {
       .cast {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 220px;
+        grid-template-columns: minmax(0, 1fr) 320px;
         column-gap: 32px;
         align-items: start;
         padding-left: var(--gutter-lg);
@@ -110,8 +66,8 @@
         top: 24px;
         grid-column: 2;
         grid-row: 1;
-        width: 200px;
-        height: 240px;
+        width: 320px;
+        height: 320px;
         margin-top: 40px;
       }
 
@@ -196,101 +152,92 @@
     animation-timeline: --wave;
   }
 
-  .slot-desk .arm,
-  .beat[data-pose="desk"] .arm {
-    animation: desk-type linear both;
+  .slot-tests .label-before,
+  .beat[data-pose="tests"] .label-before,
+  .slot-tests .label-after,
+  .beat[data-pose="tests"] .label-after {
+    animation: label-out linear both;
     animation-range: cover;
   }
 
-  .slot-pipes .bead,
-  .beat[data-pose="pipes"] .bead {
-    animation: pipe-run linear both;
+  .slot-tests .label-after,
+  .beat[data-pose="tests"] .label-after {
+    animation-name: label-in;
+  }
+
+  .slot-payment .wrench,
+  .beat[data-pose="payment"] .wrench,
+  .slot-payment .mismatch,
+  .beat[data-pose="payment"] .mismatch,
+  .slot-payment .fixed,
+  .beat[data-pose="payment"] .fixed {
+    animation: wrench-turn linear both;
     animation-range: cover;
   }
 
-  .slot-pipes .b2,
-  .beat[data-pose="pipes"] .b2 {
-    animation-range: cover 15% cover 100%;
+  .slot-payment .mismatch,
+  .beat[data-pose="payment"] .mismatch {
+    animation-name: mismatch-out;
   }
 
-  .slot-pipes .b3,
-  .beat[data-pose="pipes"] .b3 {
-    animation-range: cover 30% cover 100%;
+  .slot-payment .fixed,
+  .beat[data-pose="payment"] .fixed {
+    animation-name: fixed-in;
   }
 
-  .slot-tests .watch-hand,
-  .beat[data-pose="tests"] .watch-hand {
-    animation: watch-sweep linear both;
-    animation-range: cover;
-  }
-
-  .slot-payment .slip,
-  .beat[data-pose="payment"] .slip {
-    animation: slip-fix linear both;
-    animation-range: cover;
-  }
-
-  .slot-wave .wave-arm,
-  .beat[data-pose="wave"] .wave-arm {
-    animation: wave-arm linear both;
+  .slot-wave .wave,
+  .beat[data-pose="wave"] .wave {
+    animation: wave-scroll linear both;
     animation-range: cover;
   }
 
   /* Timeline stays in its own rule. The minifier folds it into `animation` and Chrome drops the declaration. */
-  .slot-desk .arm,
-  .beat[data-pose="desk"] .arm {
-    animation-timeline: --desk;
-  }
-
-  .slot-pipes .bead,
-  .beat[data-pose="pipes"] .bead {
-    animation-timeline: --pipes;
-  }
-
-  .slot-tests .watch-hand,
-  .beat[data-pose="tests"] .watch-hand {
+  .slot-tests .label-before,
+  .beat[data-pose="tests"] .label-before,
+  .slot-tests .label-after,
+  .beat[data-pose="tests"] .label-after {
     animation-timeline: --tests;
   }
 
-  .slot-payment .slip,
-  .beat[data-pose="payment"] .slip {
+  .slot-payment .wrench,
+  .beat[data-pose="payment"] .wrench,
+  .slot-payment .mismatch,
+  .beat[data-pose="payment"] .mismatch,
+  .slot-payment .fixed,
+  .beat[data-pose="payment"] .fixed {
     animation-timeline: --payment;
   }
 
-  .slot-wave .wave-arm,
-  .beat[data-pose="wave"] .wave-arm {
+  .slot-wave .wave,
+  .beat[data-pose="wave"] .wave {
     animation-timeline: --wave;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pin,
-    .pose,
-    .pose * {
-      animation: none !important;
-    }
   }
 }
 
 @supports not (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .beat.is-active .arm {
-      animation: desk-type 1.6s ease-in-out infinite alternate;
+    .beat.is-active .label-before {
+      animation: label-out-time 1.2s ease forwards;
     }
 
-    .beat.is-active .bead {
-      animation: pipe-run 2.4s linear infinite;
+    .beat.is-active .label-after {
+      animation: label-in-time 1.2s ease 0.2s forwards;
     }
 
-    .beat.is-active .watch-hand {
-      animation: watch-sweep 2s linear infinite alternate;
+    .beat.is-active .wrench {
+      animation: wrench-time 0.8s ease-in-out 2;
     }
 
-    .beat.is-active .slip {
-      animation: slip-fix 1.8s ease-in-out infinite alternate;
+    .beat.is-active .mismatch {
+      animation: mismatch-out-time 0.6s ease 0.8s forwards;
     }
 
-    .beat.is-active .wave-arm {
-      animation: wave-arm 1.2s ease-in-out infinite alternate;
+    .beat.is-active .fixed {
+      animation: fixed-in-time 0.6s ease 0.8s forwards;
+    }
+
+    .beat.is-active .wave {
+      animation: wave-time 2.4s ease-in-out 3;
     }
   }
 }
@@ -351,52 +298,210 @@
   }
 }
 
-@keyframes desk-type {
+@media (prefers-reduced-motion: no-preference) {
+  .ch .head {
+    animation: ch-nod 6s ease-in-out infinite;
+  }
+
+  .ch-hero .arm-l {
+    animation: type-l 0.4s ease-in-out infinite alternate;
+  }
+
+  .ch-hero .arm-r {
+    animation: type-r 0.4s ease-in-out infinite alternate;
+  }
+
+  .ch .pipe-flow {
+    animation: pipe-dash 1.5s linear infinite;
+  }
+
+  .ch .stopwatch-hand {
+    animation: hand-spin 4s linear infinite;
+  }
+
+  .ch .label-after {
+    opacity: 0;
+  }
+}
+
+@keyframes ch-nod {
+  50% {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes type-l {
+  to {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes type-r {
+  to {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes pipe-dash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+@keyframes hand-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes label-out {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes label-in {
+  0%,
+  40% {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  70%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes label-out-time {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes label-in-time {
   from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wrench-turn {
+  0%,
+  15% {
     transform: rotate(0deg);
   }
-  to {
-    transform: rotate(-8deg);
+  35% {
+    transform: rotate(-10deg);
+  }
+  55% {
+    transform: rotate(10deg);
+  }
+  70%,
+  100% {
+    transform: rotate(0deg);
   }
 }
 
-@keyframes pipe-run {
-  from {
-    transform: translateX(0);
+@keyframes wrench-time {
+  0%,
+  100% {
+    transform: rotate(0deg);
   }
-  to {
-    transform: translateX(100px);
-  }
-}
-
-@keyframes watch-sweep {
-  from {
-    transform: rotate(-40deg);
-  }
-  to {
-    transform: rotate(210deg);
+  50% {
+    transform: rotate(-10deg);
   }
 }
 
-@keyframes slip-fix {
-  from {
-    transform: translate(10px, 8px);
+@keyframes mismatch-out {
+  0%,
+  55% {
+    opacity: 1;
   }
-  to {
-    transform: translate(0, 0);
+  80%,
+  100% {
+    opacity: 0;
   }
 }
 
-@keyframes wave-arm {
+@keyframes mismatch-out-time {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fixed-in {
+  0%,
+  55% {
+    opacity: 0;
+  }
+  80%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fixed-in-time {
   from {
-    transform: rotate(6deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(-22deg);
+    opacity: 1;
+  }
+}
+
+@keyframes wave-scroll {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  16%,
+  50%,
+  84% {
+    transform: rotate(-14deg);
+  }
+  33%,
+  67% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes wave-time {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-14deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ch,
+  .ch * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ch .label-after,
+  .ch .mismatch {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .ch .fixed {
+    opacity: 0 !important;
+  }
+
   .cast-stage {
     display: none !important;
   }

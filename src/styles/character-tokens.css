@@ -1,0 +1,4 @@
+/* Character tokens — extend b2-tokens.css */
+:root,[data-theme=dark]{--ch-outline:#EEF2F7;--ch-skin:#C98E5E;--ch-hair:#1E1A1A;--ch-shirt:#2F6C9E;--ch-accent:#F5B544;--ch-prop:#13233A;--ch-mark:#3DDC97;--ch-warn:#FF7A6B}
+[data-theme=light]{--ch-outline:#1B2333;--ch-skin:#D9A273;--ch-hair:#1E1A1A;--ch-shirt:#4C88B8;--ch-accent:#A36800;--ch-prop:#F2ECDF;--ch-mark:#1F8A5B;--ch-warn:#C2412F}
+@media (prefers-color-scheme:light){:root:not([data-theme]){--ch-outline:#1B2333;--ch-skin:#D9A273;--ch-hair:#1E1A1A;--ch-shirt:#4C88B8;--ch-accent:#A36800;--ch-prop:#F2ECDF;--ch-mark:#1F8A5B;--ch-warn:#C2412F}}
