@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: boolean;
+  noindex?: boolean;
+}
+
+const { title, description, jsonLd = false, noindex = false } = Astro.props;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: 'Data and backend engineer',
+  description: site.description,
+  url: new URL('/', Astro.site).href,
+  email: site.email,
+  sameAs: [site.linkedin, site.github, site.medium],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Indian Institute of Technology Ropar',
+  },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'SmartHelio',
+  },
+};
+
+const json = JSON.stringify(person).replace(/</g, '\\u003c');
+---
+
+<html lang="en" data-theme="b">
+  <head>
+    <Seo title={title} description={description} noindex={noindex} />
+    {jsonLd && <script type="application/ld+json" set:html={json} />}
+  </head>
+  <body>
+    <Header />
+    <main id="content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

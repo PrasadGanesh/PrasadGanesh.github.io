@@ -1,0 +1,53 @@
+---
+const rows = [
+  ['REQ', 'sample'],
+  ['QUEUE', 'sample'],
+  ['API', 'sample'],
+  ['JOB', 'sample'],
+  ['ROW', 'sample'],
+  ['CACHE', 'sample'],
+  ['LOG', 'sample'],
+  ['ACK', 'sample'],
+];
+const tape = [...rows, ...rows];
+---
+
+<figure class="stream">
+  <div class="stream__toolbar">
+    <p class="kicker">Sample data</p>
+    <label class="pause">
+      <input class="stream-motion" type="checkbox" />
+      <span class="pause__on">Pause sample animation</span>
+      <span class="pause__off">Play sample animation</span>
+    </label>
+  </div>
+  <div class="stream__stage">
+    <svg viewBox="0 0 560 320" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="36" y="118" width="110" height="64"></rect>
+        <rect x="226" y="118" width="110" height="64"></rect>
+        <rect x="416" y="118" width="110" height="64"></rect>
+        <path class="flow is-animated" d="M146 150H226"></path>
+        <path class="flow is-animated" d="M336 150H416"></path>
+        <path class="flow is-animated" d="M281 182v46H146"></path>
+        <path class="flow is-animated" d="M146 228H90v-46"></path>
+      </g>
+      <text x="91" y="155" text-anchor="middle">INGEST</text>
+      <text x="281" y="155" text-anchor="middle">SERVICE</text>
+      <text x="471" y="155" text-anchor="middle">STORE</text>
+    </svg>
+    <div class="tape" aria-hidden="true">
+      <ul class="tape__track is-animated">
+        {
+          tape.map(([channel, value]) => (
+            <li>
+              <span>{channel}</span>
+              <span>{value}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <figcaption>Sample data. A sketch of a system flow, not a live trace.</figcaption>
+</figure>
