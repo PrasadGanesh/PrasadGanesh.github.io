@@ -9,11 +9,13 @@ import { site } from '../data/site';
 interface Props {
   title: string;
   description: string;
+  ogTitle?: string;
+  ogDescription?: string;
   jsonLd?: boolean;
   noindex?: boolean;
 }
 
-const { title, description, jsonLd = false, noindex = false } = Astro.props;
+const { title, description, ogTitle, ogDescription, jsonLd = false, noindex = false } = Astro.props;
 
 const person = {
   '@context': 'https://schema.org',
@@ -43,7 +45,7 @@ const json = JSON.stringify(person).replace(/</g, '\\u003c');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ThemeBoot />
     <FontLoad />
-    <Seo title={title} description={description} noindex={noindex} />
+    <Seo title={title} description={description} ogTitle={ogTitle} ogDescription={ogDescription} noindex={noindex} />
     {jsonLd && <script type="application/ld+json" set:html={json} />}
   </head>
   <body>

@@ -52,7 +52,7 @@ const required = [
   'Data and backend engineer.',
   'I build the platforms teams run on, and I lead the people who build them.',
   'Habits, not titles',
-  'The backend years in Mohali',
+  'Making e-commerce payments add up',
   'linkedin.com/in/ganesh-prasad',
   'prefers-reduced-motion',
   'application/ld+json',

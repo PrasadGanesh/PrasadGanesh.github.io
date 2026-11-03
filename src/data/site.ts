@@ -1,12 +1,15 @@
 export const site = {
   name: 'Ganesh Prasad',
-  title: 'Ganesh Prasad — Data and backend engineer',
+  title: 'Ganesh Prasad: Data and backend engineer',
   description:
-    'Ganesh Prasad is a data and backend engineer. He builds the platforms teams run on, and he leads the people who build them.',
+    'Data and backend engineer. I build data platforms and backend systems in Python, Spark, and Airflow, and I lead the teams that build them.',
+  ogTitle: 'Ganesh Prasad: Data and backend engineer who leads',
+  ogDescription:
+    'I own a data platform that handles millions of sensor readings a day, and I spent 3.5 years before that building Python backends.',
   email: 'ganeshprasad227@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ganesh-prasad/',
   github: 'https://github.com/PrasadGanesh',
-  medium: 'https://ganeshprasad227.medium.com',
+  medium: 'https://ganeshprasad227.medium.com/',
   resume:
     'https://drive.google.com/file/d/15hS3R7N3NwGuQ6dq1THi9Q5rEtmKaW_3/view?usp=sharing',
 } as const;

@@ -16,13 +16,19 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
 const poseFor: Record<string, string> = {
   'owning-a-data-platform': 'pipes',
   'automated-fault-scoring': 'tests',
-  'backend-years-mohali': 'payment',
+  'ecommerce-payment-reconciliation': 'payment',
 };
-const backend = studies.find((study) => study.id === 'backend-years-mohali');
-if (!backend) throw new Error('Missing backend case study');
+const payments = studies.find((study) => study.id === 'ecommerce-payment-reconciliation');
+if (!payments) throw new Error('Missing payments case study');
 ---
 
-<Base title={site.title} description={site.description} jsonLd>
+<Base
+  title={site.title}
+  description={site.description}
+  ogTitle={site.ogTitle}
+  ogDescription={site.ogDescription}
+  jsonLd
+>
   <div class="cast">
     <div class="cast-stage" aria-hidden="true">
       <div class="slot slot-desk"><Desk /></div>
@@ -40,11 +46,12 @@ if (!backend) throw new Error('Missing backend case study');
           Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
         </h1>
         <p class="proof">
-          ~3.5 years building Python backends, then owned a data platform end to end. M.Tech, IIT Ropar.
+          I own a data platform end to end that covers more than 100 plants and takes in millions of sensor readings a
+          day. Before that I spent about 3.5 years building Python backends. M.Tech CS, IIT Ropar.
         </p>
         <p class="cta">
-          <a href="#work">Case studies</a>
-          <a href="#contact">Contact</a>
+          <a href="#work">See the case studies</a>
+          <a href="#contact">Get in touch</a>
         </p>
       </div>
       <SystemFlow />
@@ -58,22 +65,22 @@ if (!backend) throw new Error('Missing backend case study');
       <div class="grid g3">
         <div class="card">
           <h3>Data platforms</h3>
-          <p>Spark, Airflow, time-series stores, pipelines</p>
+          <p>Ingestion, pipelines, and storage for high-volume time-series data. Spark, Airflow, AWS Timestream, S3.</p>
         </div>
         <div class="card">
           <h3>Backend systems</h3>
-          <p>FastAPI, Django, APIs, MongoDB, Postgres, Redis</p>
+          <p>APIs and services that hold up under real traffic and real money. FastAPI, Django, MongoDB, Redis, Docker.</p>
         </div>
         <div class="card">
           <h3>AI agents &amp; applied ML</h3>
-          <p>Agents in production, detection models, evaluation</p>
+          <p>Models and agents that sit inside production systems, measured against real data before they ship.</p>
         </div>
       </div>
     </section>
   </div>
 
   {
-    studies.filter((study) => study.id !== 'backend-years-mohali').map((study) => {
+    studies.filter((study) => study.id !== 'ecommerce-payment-reconciliation').map((study) => {
       const pose = poseFor[study.id];
       return (
         <div class="beat" data-pose={pose} id={study.id === 'owning-a-data-platform' ? 'work' : undefined}>
@@ -109,12 +116,12 @@ if (!backend) throw new Error('Missing backend case study');
     </div>
     <section>
       <CaseStudyCard
-        href="/case-studies/backend-years-mohali/"
-        title={backend.data.title}
-        problem={backend.data.problem}
-        tried={backend.data.tried}
-        worked={backend.data.worked}
-        result={backend.data.result}
+        href="/case-studies/ecommerce-payment-reconciliation/"
+        title={payments.data.title}
+        problem={payments.data.problem}
+        tried={payments.data.tried}
+        worked={payments.data.worked}
+        result={payments.data.result}
       />
     </section>
     <div class="rail">
@@ -122,18 +129,49 @@ if (!backend) throw new Error('Missing backend case study');
     <p class="eyebrow">How I lead</p>
     <h2 id="lead-title">Habits, not titles</h2>
     <ul class="lead">
-      <li><b>Design reviews</b> <span class="muted">— [placeholder]</span></li>
-      <li><b>Mentoring</b> <span class="muted">— [placeholder]</span></li>
-      <li><b>Simple tech choices</b> <span class="muted">— [placeholder]</span></li>
-      <li><b>Release discipline</b> <span class="muted">— [placeholder]</span></li>
-      <li><b>Unclear asks → specs</b> <span class="muted">— [placeholder]</span></li>
+      <li>
+        <b>Design reviews</b>
+        <span class="muted">
+          — I ask for a short written design before work starts, and I review it for failure modes and cost before I look
+          at style.
+        </span>
+      </li>
+      <li>
+        <b>Mentoring</b>
+        <span class="muted">
+          — I pair on real work, explain why each choice was made, and give people the parts of the system that will
+          stretch them.
+        </span>
+      </li>
+      <li>
+        <b>Simple tech choices</b>
+        <span class="muted">
+          — I pick the boring tool the team already knows unless the data proves we need something else.
+        </span>
+      </li>
+      <li>
+        <b>Release discipline</b>
+        <span class="muted">
+          — Small changes, tested on real data, shipped behind a way to roll back. I don't skip a step to save a day.
+        </span>
+      </li>
+      <li>
+        <b>Unclear asks → specs</b>
+        <span class="muted">
+          — I turn a vague request into a one-page spec covering inputs, outputs, edge cases, and what "done" means, and
+          I get sign-off before we build.
+        </span>
+      </li>
     </ul>
   </section>
 
   <section id="writing" aria-labelledby="writing-title">
     <p class="eyebrow">Writing</p>
     <h2 id="writing-title">Notes</h2>
-    <div class="grid g3 notes">
+    <p>
+      <a href={site.medium}>More on Medium</a>
+    </p>
+    <div class="notes">
       {
         essays.map((essay) => (
           <div class="card">
@@ -150,8 +188,9 @@ if (!backend) throw new Error('Missing backend case study');
   <section aria-labelledby="foundations-title">
     <p class="eyebrow" id="foundations-title">Foundations</p>
     <p>
-      M.Tech CS, IIT Ropar (2018–2020). Research on permutation-based indexing, KD-trees/quadtrees, and
-      facial-expression recognition (78% accuracy).
+      M.Tech in Computer Science, IIT Ropar (2018–2020). Projects: permutation-based indexing for similarity search,
+      KD-tree and quadtree range queries, fingerprint recognition, and facial-expression recognition at 78% accuracy.
+      MongoDB certified. I speak English and Hindi, and some German.
     </p>
   </section>
 
@@ -164,10 +203,12 @@ if (!backend) throw new Error('Missing backend case study');
     </div>
     <section id="contact" aria-labelledby="contact-title">
       <p class="eyebrow" id="contact-title">Contact</p>
+      <p>The best way to reach me is email. I reply to work inquiries.</p>
       <p class="cta">
         <a href={`mailto:${site.email}`}>Email</a>
         <a href={site.linkedin}>LinkedIn</a>
         <a href={site.github}>GitHub</a>
+        <a href={site.medium}>Medium</a>
       </p>
     </section>
   </div>
