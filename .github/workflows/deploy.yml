@@ -1,0 +1,79 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages_ready: ${{ steps.pages.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+
+      - name: Fetch stored previews
+        run: |
+          set -euo pipefail
+          git fetch origin gh-pages-previews:refs/remotes/origin/gh-pages-previews || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages-previews; then
+            git worktree remove --force /tmp/previews >/dev/null 2>&1 || true
+            rm -rf /tmp/previews
+            git worktree add /tmp/previews origin/gh-pages-previews
+          else
+            mkdir -p /tmp/previews
+          fi
+
+      - name: Assemble site
+        run: node scripts/assemble-site.mjs --dist dist --previews /tmp/previews --out _site
+
+      - name: Check Pages source
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/pages-ready.sh
+
+      - name: Pages source is not GitHub Actions
+        if: steps.pages.outputs.ready != 'true'
+        run: |
+          echo "::warning title=GitHub Pages source::${{ steps.pages.outputs.reason }} Open Settings → Pages → Build and deployment → Source and choose GitHub Actions. Deploy is skipped until then. See docs/DEPLOY.md."
+
+      - name: Upload Pages artifact
+        if: steps.pages.outputs.ready == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.pages_ready == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

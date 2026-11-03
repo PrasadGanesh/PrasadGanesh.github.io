@@ -1,0 +1,81 @@
+name: PR preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        if: github.event.action != 'closed'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build
+        if: github.event.action != 'closed'
+        run: |
+          npm ci
+          npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+
+      - name: Prefix preview paths
+        if: github.event.action != 'closed'
+        run: |
+          site="$(node --input-type=module -e "import { siteOrigin } from './site-origin.mjs'; console.log(siteOrigin)")"
+          node scripts/prefix-preview.mjs --dir dist --base "/pr-${{ github.event.pull_request.number }}" --site "$site"
+
+      - name: Upload preview site
+        if: github.event.action != 'closed'
+        uses: actions/upload-artifact@v7
+        with:
+          name: preview-dist
+          path: dist
+          retention-days: 7
+          include-hidden-files: true
+
+      - name: Write preview metadata
+        run: |
+          mkdir -p preview-meta
+          printf '%s\n' "${{ github.event.action }}" > preview-meta/action
+          printf '%s\n' "${{ github.event.pull_request.number }}" > preview-meta/number
+          printf '%s\n' "${{ github.event.pull_request.head.sha }}" > preview-meta/sha
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: preview-meta
+          path: preview-meta
+          retention-days: 7
+
+      - name: Check Pages source
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/pages-ready.sh
+
+      - name: Fork previews are not published
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: echo "::notice::Fork pull requests are not published. A preview would place that HTML on the public site."
+
+      - name: Comment with the preview URL
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PAGES_READY: ${{ steps.pages.outputs.ready }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          STATUS: ${{ github.event.action == 'closed' && 'removed' || 'built' }}
+        run: bash scripts/preview-comment.sh
