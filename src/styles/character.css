@@ -27,11 +27,16 @@
 .ch .head,
 .ch .arm-l,
 .ch .arm-r,
+.ch .scarf,
 .ch .stopwatch-hand,
 .ch .wrench,
 .ch .wave,
 .ch .label-after {
   transform-box: view-box;
+}
+
+.ch .scarf {
+  transform-origin: 160px 150px;
 }
 
 .cast {
@@ -303,6 +308,10 @@
     animation: ch-nod 6s ease-in-out infinite;
   }
 
+  .ch .scarf {
+    animation: scarf-sway 4s ease-in-out infinite alternate;
+  }
+
   .ch-hero .arm-l {
     animation: type-l 0.4s ease-in-out infinite alternate;
   }
@@ -327,6 +336,15 @@
 @keyframes ch-nod {
   50% {
     transform: translateY(1px);
+  }
+}
+
+@keyframes scarf-sway {
+  from {
+    transform: rotate(-2deg);
+  }
+  to {
+    transform: rotate(2deg);
   }
 }
 
