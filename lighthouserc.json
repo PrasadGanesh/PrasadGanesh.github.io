@@ -5,8 +5,8 @@
       "staticDistDir": "./dist",
       "url": [
         "http://localhost/",
-        "http://localhost/case-studies/soiling-loss-detection/",
-        "http://localhost/thinking/evidence-grade-bess-telemetry/"
+        "http://localhost/case-studies/owning-a-data-platform/",
+        "http://localhost/writing/evidence-grade-bess-telemetry/"
       ],
       "settings": {
         "formFactor": "mobile",

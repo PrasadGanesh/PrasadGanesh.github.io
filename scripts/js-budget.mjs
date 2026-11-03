@@ -62,9 +62,11 @@ if (gzipBytes > limit) {
 
 const home = await readFile(path.join(root, 'index.html'), 'utf8');
 const required = [
-  'Data engineer for solar and battery storage',
+  'Data and backend engineer. I build the platforms teams run on',
+  'How I lead',
+  'GAIA: an AI agent as a production system',
+  'Backend years in Mohali',
   'linkedin.com/in/ganesh-prasad',
-  'Loss-aware fault-log backfilling',
   'live-demo',
   'Sample data',
   'prefers-reduced-motion',
@@ -76,11 +78,7 @@ for (const needle of required) {
     process.exit(1);
   }
 }
-if (home.includes('Timestream data pipeline')) {
-  console.error('Retired Timestream case study is still on the homepage');
-  process.exit(1);
-}
-if (/gaia/i.test(home)) {
-  console.error('GAIA is still mentioned on the homepage');
+if (home.includes('Data engineer for solar and battery storage')) {
+  console.error('The solar-only hero line is still on the homepage');
   process.exit(1);
 }

@@ -1,19 +1,80 @@
 /*
   Design tokens. Restyle the site by editing this file only.
+  Colours are drafts. The owner has not picked a final palette.
+
+  Active theme is B, set with data-theme="b" on <html>.
+  Switch to data-theme="a" for the control-room console.
+  The theme-color meta tag in site.ts repeats --color-bg for the active theme.
+
   Text tokens are paired with --color-bg and --color-surface.
-  Measured contrast (WCAG):
-    --color-text on --color-bg        16.6:1
-    --color-muted on --color-bg       11.6:1
-    --color-faint on --color-surface   8.8:1
-    --color-accent on --color-bg      11.6:1
-    --color-accent on --color-surface 10.3:1
-    --color-on-accent on --color-accent 11.3:1
   Keep body text at or above 4.5:1, and UI boundaries that identify a control
   at or above 3:1, when these values change.
-  The theme-color meta tag in Seo.astro repeats --color-bg. Update both.
+
+  Theme B draft (night sky), measured on #0e1320 / #171d2e:
+    text 16.2:1, muted 12.0:1, faint 9.1:1 on bg
+    accent #e7c27a on bg 10.9:1, on-accent on accent 10.8:1
+    line #6d7690 on bg 4.1:1
 */
 
 :root {
+  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  --text-sm: 0.875rem;
+  --text-md: 1.0625rem;
+  --text-lg: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
+  --text-xl: clamp(2.2rem, 1.5rem + 2.2vw, 3.6rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.75rem;
+  --space-7: 5rem;
+
+  --line: 1px;
+  --measure: 66ch;
+  --header-h: 4.25rem;
+  --duration-flow: 2.8s;
+  --duration-tape: 18s;
+  --ease: linear;
+
+  --focus-ring: 2px solid var(--color-accent);
+}
+
+/* B — night-sky editorial. Likely pick. Serif headlines, open hero, no console frame. */
+:root,
+[data-theme="b"] {
+  --color-bg: #0e1320;
+  --color-surface: #171d2e;
+  --color-sunken: #090d18;
+  --color-text: #f4efe6;
+  --color-muted: #d5cfc3;
+  --color-faint: #b7b3c4;
+  --color-accent: #e7c27a;
+  --color-on-accent: #1c1408;
+  --color-line: #6d7690;
+  --color-ok: #c5e0b0;
+  --color-grid: #1c2436;
+
+  --font-display: var(--font-serif);
+  --display-weight: 500;
+  --display-track: 0;
+  --kicker-font: var(--font-sans);
+  --kicker-transform: none;
+  --kicker-track: 0;
+
+  --hero-plate: transparent;
+  --hero-border: 0 solid transparent;
+  --button-bg: transparent;
+  --button-fg: var(--color-accent);
+  --button-border: var(--color-accent);
+}
+
+/* A — control-room console. Sans headlines, framed hero, mono kickers. */
+[data-theme="a"] {
   --color-bg: #10130c;
   --color-surface: #1b2016;
   --color-sunken: #0b0d09;
@@ -26,30 +87,16 @@
   --color-ok: #c6ef9a;
   --color-grid: #24301c;
 
-  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --font-display: var(--font-sans);
+  --display-weight: 600;
+  --display-track: -0.02em;
+  --kicker-font: var(--font-mono);
+  --kicker-transform: uppercase;
+  --kicker-track: 0.06em;
 
-  --text-sm: 0.875rem;
-  --text-md: 1.0625rem;
-  --text-lg: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
-  --text-xl: clamp(2.05rem, 1.45rem + 2vw, 3.35rem);
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2.5rem;
-  --space-7: 4.5rem;
-
-  --line: 1px;
-  --measure: 68ch;
-  --header-h: 4.25rem;
-  --duration-flow: 2.6s;
-  --duration-soc: 7s;
-  --duration-tape: 18s;
-  --duration-spin: 28s;
-  --ease: linear;
-
-  --focus-ring: 2px solid var(--color-accent);
+  --hero-plate: var(--color-bg);
+  --hero-border: var(--line) solid var(--color-line);
+  --button-bg: var(--color-accent);
+  --button-fg: var(--color-on-accent);
+  --button-border: var(--color-accent);
 }

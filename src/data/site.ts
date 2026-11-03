@@ -1,22 +1,23 @@
 export const site = {
   name: 'Ganesh Prasad',
-  title: 'Ganesh Prasad — Data engineer for solar and battery storage',
+  title: 'Ganesh Prasad — Data and backend engineer',
   description:
-    'Ganesh Prasad is a data engineer for solar and battery storage at SmartHelio. He builds time-series platforms, fault and soiling detection, and AI agents.',
+    'Ganesh Prasad is a data and backend engineer. He builds the platforms teams run on, and he leads the people who build them.',
   email: 'ganeshprasad227@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ganesh-prasad/',
   github: 'https://github.com/PrasadGanesh',
   medium: 'https://ganeshprasad227.medium.com',
   resume:
     'https://drive.google.com/file/d/15hS3R7N3NwGuQ6dq1THi9Q5rEtmKaW_3/view?usp=sharing',
-  themeColor: '#10130c',
+  themeColor: '#0e1320',
 } as const;
 
 export const nav = [
   { href: '/#work', label: 'What I do' },
   { href: '/#case-studies', label: 'Case studies' },
-  { href: '/#live-demo', label: 'Live demo' },
-  { href: '/#thinking', label: 'Thinking' },
+  { href: '/#lead', label: 'How I lead' },
+  { href: '/#live-demo', label: 'Demo' },
+  { href: '/#writing', label: 'Writing' },
   { href: '/#foundations', label: 'Foundations' },
   { href: '/#contact', label: 'Contact' },
 ] as const;

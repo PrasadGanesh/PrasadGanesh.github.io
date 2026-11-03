@@ -132,24 +132,27 @@ a:hover {
 .kicker {
   margin: 0 0 var(--space-3);
   color: var(--color-accent);
-  font-family: var(--font-mono);
+  font-family: var(--kicker-font);
   font-size: var(--text-sm);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: var(--kicker-track);
+  text-transform: var(--kicker-transform);
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-track);
 }
 
 h1 {
   font-size: var(--text-xl);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.12;
+  line-height: 1.15;
 }
 
 h2 {
   font-size: var(--text-lg);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 h3 {
@@ -163,13 +166,60 @@ h3 {
   max-width: var(--measure);
 }
 
-.lede {
+.lede,
+.proof {
   margin-top: var(--space-4);
   color: var(--color-muted);
 }
 
+.proof {
+  max-width: var(--measure);
+  font-size: var(--text-md);
+}
+
 .section-head {
   margin-bottom: var(--space-5);
+}
+
+.lead-list,
+.writing-list {
+  max-width: 46rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lead-list li,
+.writing-list li {
+  padding: var(--space-4) 0;
+  border-top: var(--line) solid var(--color-line);
+}
+
+.lead-list li {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-track);
+  line-height: 1.3;
+}
+
+.writing-list__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.writing-list h2,
+.writing-list h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.writing-list p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-muted);
 }
 
 .hero {
@@ -190,9 +240,9 @@ h3 {
   position: relative;
   z-index: 1;
   width: min(40rem, 100%);
-  padding: var(--space-5);
-  background: var(--color-bg);
-  border: var(--line) solid var(--color-line);
+  padding: var(--space-5) 0;
+  background: var(--hero-plate);
+  border: var(--hero-border);
 }
 
 .hero__links {
@@ -207,8 +257,9 @@ h3 {
   align-items: center;
   min-height: 2.75rem;
   padding: 0 var(--space-4);
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--button-bg);
+  color: var(--button-fg);
+  border: var(--line) solid var(--button-border);
   text-decoration: none;
 }
 
@@ -219,22 +270,10 @@ h3 {
 @media (min-width: 70rem) {
   .hero {
     display: grid;
-    align-items: end;
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    align-items: center;
+    gap: var(--space-6);
     min-height: calc(100svh - var(--header-h));
-  }
-
-  .hero__stream,
-  .hero__copy {
-    grid-area: 1 / 1;
-  }
-
-  .hero__stream {
-    align-self: stretch;
-  }
-
-  .hero__copy {
-    align-self: end;
-    margin: var(--space-5);
   }
 }
 
@@ -245,11 +284,7 @@ h3 {
   height: 100%;
   min-height: 22rem;
   padding: var(--space-4);
-  background:
-    linear-gradient(var(--color-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
-    var(--color-sunken);
-  background-size: 28px 28px, 28px 28px, auto;
+  background: var(--color-sunken);
   border: var(--line) solid var(--color-line);
 }
 
@@ -320,28 +355,8 @@ h3 {
   stroke-dasharray: 3 8;
 }
 
-.stream .soc {
-  fill: var(--color-accent);
-  stroke: none;
-  transform-box: fill-box;
-  transform-origin: bottom center;
-  transform: scaleY(0.62);
-}
-
-.stream .rays {
-  transform-origin: 40px 42px;
-}
-
 .is-animated.flow {
   animation: flow var(--duration-flow) var(--ease) infinite;
-}
-
-.is-animated.soc {
-  animation: soc var(--duration-soc) ease-in-out infinite;
-}
-
-.is-animated.rays {
-  animation: spin var(--duration-spin) var(--ease) infinite;
 }
 
 .tape {
@@ -386,22 +401,6 @@ h3 {
 @keyframes flow {
   to {
     stroke-dashoffset: -88;
-  }
-}
-
-@keyframes soc {
-  0%,
-  100% {
-    transform: scaleY(0.38);
-  }
-  50% {
-    transform: scaleY(0.92);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
   }
 }
 

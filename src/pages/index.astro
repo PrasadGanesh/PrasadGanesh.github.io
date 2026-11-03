@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import SolarStream from '../components/SolarStream.astro';
+import SystemFlow from '../components/SystemFlow.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import { earlier, site } from '../data/site';
 
@@ -12,48 +12,53 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
 <Base title={site.title} description={site.description} jsonLd>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__copy">
-      <p class="kicker">{site.name} · SmartHelio</p>
+      <p class="kicker">{site.name}</p>
       <h1 id="hero-title">
-        Data engineer for solar and battery storage. I turn plant telemetry into decisions.
+        Data and backend engineer. I build the platforms teams run on, and I lead the people who build them.
       </h1>
+      <p class="proof">
+        ~3.5 years building Python backends, then owning a data platform end to end. M.Tech, IIT Ropar.
+      </p>
       <p class="hero__links">
         <a href="#case-studies">Case studies</a>
         <a href="#contact">Contact</a>
       </p>
     </div>
     <div class="hero__stream">
-      <SolarStream />
+      <SystemFlow />
     </div>
   </section>
 
   <section class="section" id="work" aria-labelledby="work-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">01 — Work</p>
+        <p class="kicker">Work</p>
         <h2 id="work-title">What I do</h2>
-        <p class="lede">
-          Time-series data platforms at SmartHelio, a YC-backed solar company, plus fault and
-          soiling detection and AI agents.
-        </p>
       </header>
       <div class="work-grid">
         <article class="plate">
-          <h3>Time-series data platforms</h3>
+          <h3>Data platforms</h3>
           <ul class="stack">
-            <li>Python</li>
             <li>Spark</li>
             <li>Airflow</li>
-            <li>FastAPI</li>
-            <li>AWS Timestream</li>
+            <li>Time-series</li>
+            <li>Pipelines</li>
           </ul>
         </article>
         <article class="plate">
-          <h3>Fault and soiling detection</h3>
-          <p>Detection on plant telemetry.</p>
+          <h3>Backend systems</h3>
+          <ul class="stack">
+            <li>FastAPI</li>
+            <li>Django</li>
+            <li>APIs</li>
+            <li>MongoDB</li>
+            <li>Postgres</li>
+            <li>Redis</li>
+          </ul>
         </article>
         <article class="plate">
-          <h3>AI agents</h3>
-          <p>Agents on top of the telemetry platform.</p>
+          <h3>AI agents and applied ML</h3>
+          <p>Agents and applied ML, treated as production systems.</p>
         </article>
       </div>
     </div>
@@ -62,9 +67,11 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
   <section class="section" id="case-studies" aria-labelledby="case-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">02 — Cases</p>
+        <p class="kicker">Cases</p>
         <h2 id="case-title">Case studies</h2>
-        <p class="lede">Problem, what was tried, what worked, and the result. Figures are still placeholders.</p>
+        <p class="lede">
+          Engineering and leadership. The domain, including solar, is context. Figures are still placeholders.
+        </p>
       </header>
       <div class="cases">
         {
@@ -86,12 +93,30 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
     </div>
   </section>
 
+  <section class="section" id="lead" aria-labelledby="lead-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">Leadership</p>
+        <h2 id="lead-title">How I lead</h2>
+      </header>
+      <ul class="lead-list">
+        <li>Design reviews</li>
+        <li>Mentoring</li>
+        <li>Simple tech choices</li>
+        <li>Release discipline</li>
+        <li>Turning unclear asks into specs</li>
+      </ul>
+    </div>
+  </section>
+
   <section class="section" id="live-demo" aria-labelledby="live-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">03 — Chart</p>
-        <h2 id="live-title">Live demo</h2>
-        <p class="lede">Sample soiling-loss tracker. The series is synthetic, not a live plant.</p>
+        <p class="kicker">Demo</p>
+        <h2 id="live-title">Sample data</h2>
+        <p class="lede">
+          A soiling-loss chart from solar telemetry. Proof of the platform work. The series is synthetic.
+        </p>
       </header>
       <link rel="stylesheet" href="/widget/soiling-widget.css" />
       <div class="sw" data-soiling data-src="/widget/data.json"></div>
@@ -99,34 +124,34 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
     </div>
   </section>
 
-  <section class="section" id="thinking" aria-labelledby="thinking-title">
+  <section class="section" id="writing" aria-labelledby="writing-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">04 — Notes</p>
-        <h2 id="thinking-title">Thinking</h2>
+        <p class="kicker">Notes</p>
+        <h2 id="writing-title">Writing</h2>
       </header>
-      <div class="essay-slot">
+      <ol class="writing-list">
         {
           essays.map((essay) => (
-            <article class="plate">
-              <p>
+            <li>
+              <div class="writing-list__row">
+                <h3>
+                  <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
+                </h3>
                 <span class="status">{essay.data.status}</span>
-              </p>
-              <h3>
-                <a href={`/thinking/${essay.id}/`}>{essay.data.title}</a>
-              </h3>
+              </div>
               <p>{essay.data.summary}</p>
-            </article>
+            </li>
           ))
         }
-      </div>
+      </ol>
     </div>
   </section>
 
   <section class="section" id="foundations" aria-labelledby="foundations-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">05 — Background</p>
+        <p class="kicker">Background</p>
         <h2 id="foundations-title">Foundations</h2>
       </header>
       <div class="foundation-grid">
@@ -159,7 +184,7 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
   <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="kicker">06 — Reach</p>
+        <p class="kicker">Reach</p>
         <h2 id="contact-title">Contact</h2>
       </header>
       <ul class="contact-list">

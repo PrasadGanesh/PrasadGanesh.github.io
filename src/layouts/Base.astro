@@ -18,7 +18,7 @@ const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: site.name,
-  jobTitle: 'Data engineer',
+  jobTitle: 'Data and backend engineer',
   description: site.description,
   url: new URL('/', Astro.site).href,
   email: site.email,
@@ -36,7 +36,7 @@ const person = {
 const json = JSON.stringify(person).replace(/</g, '\\u003c');
 ---
 
-<html lang="en">
+<html lang="en" data-theme="b">
   <head>
     <Seo title={title} description={description} noindex={noindex} />
     {jsonLd && <script type="application/ld+json" set:html={json} />}
