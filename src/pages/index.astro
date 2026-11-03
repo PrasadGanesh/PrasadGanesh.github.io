@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SolarStream from '../components/SolarStream.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
-import LiveDemo from '../components/LiveDemo.astro';
 import { earlier, site } from '../data/site';
 
 const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
@@ -92,11 +91,11 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
       <header class="section-head">
         <p class="kicker">03 — Chart</p>
         <h2 id="live-title">Live demo</h2>
-        <p class="lede">
-          Empty slot for a JSON dataset and a chart. Nothing here is live plant data.
-        </p>
+        <p class="lede">Sample soiling-loss tracker. The series is synthetic, not a live plant.</p>
       </header>
-      <LiveDemo label="sample data" />
+      <link rel="stylesheet" href="/widget/soiling-widget.css" />
+      <div class="sw" data-soiling data-src="/widget/data.json"></div>
+      <script is:inline src="/widget/soiling-widget.js" defer></script>
     </div>
   </section>
 

@@ -15,10 +15,10 @@ npm run preview
 - Case studies: `src/content/case-studies/`
 - Essays: `src/content/essays/`
 - Profile links: `src/data/site.ts`
-- Empty chart slot: `src/components/LiveDemo.astro`
+- Live demo widget: `public/widget/` (`soiling-widget.js`, `soiling-widget.css`, `data.json`)
 - Sample plant animation: `src/components/SolarStream.astro`
 
-The chart slot takes a `dataset` prop and a `label` (default `sample data`). It does not load a chart library. Listen for `livedemo:ready` and draw into `[data-chart]`.
+The live demo loads the widget with a plain `<script is:inline>`. Its colours read the tokens in `src/styles/tokens.css`.
 
 ## Checks
 

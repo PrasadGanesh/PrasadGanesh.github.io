@@ -66,7 +66,7 @@ const required = [
   'linkedin.com/in/ganesh-prasad',
   'Loss-aware fault-log backfilling',
   'live-demo',
-  'sample data',
+  'Sample data',
   'prefers-reduced-motion',
   'application/ld+json',
 ];
