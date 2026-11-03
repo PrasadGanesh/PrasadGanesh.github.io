@@ -1,6 +1,6 @@
 ---
-title: Evidence-grade BESS telemetry and the April 2027 CEA rules
-summary: "[placeholder]"
+title: Evidence-grade BESS telemetry under the April 2027 CEA rules
+summary: "[abstract]"
 status: stub
 order: 1
 ---

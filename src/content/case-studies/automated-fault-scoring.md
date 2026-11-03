@@ -1,9 +1,9 @@
 ---
 title: From manual fault testing to automated scoring
-problem: "[placeholder] Fault-detection checks were a manual loop."
+problem: "[placeholder]"
 tried: "[placeholder]"
-worked: "[placeholder] Scoring for the detection algorithms, run as a system instead of a checklist."
-result: "[placeholder]"
+worked: "[placeholder]"
+result: "[number]"
 metrics:
   - "[placeholder]"
 stack:

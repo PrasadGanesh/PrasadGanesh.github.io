@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SystemFlow from '../components/SystemFlow.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
-import { earlier, site } from '../data/site';
+import { site } from '../data/site';
 
 const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
 const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
@@ -11,197 +11,103 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
 
 <Base title={site.title} description={site.description} jsonLd>
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__copy">
-      <p class="kicker">{site.name}</p>
+    <div>
+      <p class="eyebrow">Data · Backend · Leadership</p>
       <h1 id="hero-title">
-        Data and backend engineer. I build the platforms teams run on, and I lead the people who build them.
+        Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
       </h1>
       <p class="proof">
-        ~3.5 years building Python backends, then owning a data platform end to end. M.Tech, IIT Ropar.
+        ~3.5 years building Python backends, then owned a data platform end to end. M.Tech, IIT Ropar.
       </p>
-      <p class="hero__links">
-        <a href="#case-studies">Case studies</a>
+      <p class="cta">
+        <a href="#work">Case studies</a>
         <a href="#contact">Contact</a>
       </p>
     </div>
-    <div class="hero__stream">
-      <SystemFlow />
-    </div>
+    <SystemFlow />
   </section>
 
-  <section class="section" id="work" aria-labelledby="work-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Work</p>
-        <h2 id="work-title">What I do</h2>
-      </header>
-      <div class="work-grid">
-        <article class="plate">
-          <h3>Data platforms</h3>
-          <ul class="stack">
-            <li>Spark</li>
-            <li>Airflow</li>
-            <li>Time-series</li>
-            <li>Pipelines</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>Backend systems</h3>
-          <ul class="stack">
-            <li>FastAPI</li>
-            <li>Django</li>
-            <li>APIs</li>
-            <li>MongoDB</li>
-            <li>Postgres</li>
-            <li>Redis</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>AI agents and applied ML</h3>
-          <p>Agents and applied ML, treated as production systems.</p>
-        </article>
+  <section aria-labelledby="work-kinds-title">
+    <p class="eyebrow">What I do</p>
+    <h2 id="work-kinds-title">Three kinds of systems</h2>
+    <div class="grid g3">
+      <div class="card">
+        <h3>Data platforms</h3>
+        <p>Spark, Airflow, time-series stores, pipelines</p>
+      </div>
+      <div class="card">
+        <h3>Backend systems</h3>
+        <p>FastAPI, Django, APIs, MongoDB, Postgres, Redis</p>
+      </div>
+      <div class="card">
+        <h3>AI agents &amp; applied ML</h3>
+        <p>Agents in production, detection models, evaluation</p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="case-studies" aria-labelledby="case-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Cases</p>
-        <h2 id="case-title">Case studies</h2>
-        <p class="lede">
-          Engineering and leadership. The domain, including solar, is context. Figures are still placeholders.
-        </p>
-      </header>
-      <div class="cases">
-        {
-          studies.map((study) => (
-            <CaseStudyCard
-              id={study.id}
-              href={`/case-studies/${study.id}/`}
-              title={study.data.title}
-              problem={study.data.problem}
-              tried={study.data.tried}
-              worked={study.data.worked}
-              result={study.data.result}
-              metrics={study.data.metrics}
-              stack={study.data.stack}
-            />
-          ))
-        }
-      </div>
+  <section id="work" aria-labelledby="case-title">
+    <p class="eyebrow">Case studies</p>
+    <h2 id="case-title">Engineering and leadership stories</h2>
+    <div class="grid g2">
+      {
+        studies.map((study) => (
+          <CaseStudyCard
+            href={`/case-studies/${study.id}/`}
+            title={study.data.title}
+            problem={study.data.problem}
+            tried={study.data.tried}
+            worked={study.data.worked}
+            result={study.data.result}
+          />
+        ))
+      }
     </div>
   </section>
 
-  <section class="section" id="lead" aria-labelledby="lead-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Leadership</p>
-        <h2 id="lead-title">How I lead</h2>
-      </header>
-      <ul class="lead-list">
-        <li>Design reviews</li>
-        <li>Mentoring</li>
-        <li>Simple tech choices</li>
-        <li>Release discipline</li>
-        <li>Turning unclear asks into specs</li>
-      </ul>
+  <section id="lead" aria-labelledby="lead-title">
+    <p class="eyebrow">How I lead</p>
+    <h2 id="lead-title">Habits, not titles</h2>
+    <ul class="lead">
+      <li><b>Design reviews</b> <span class="muted">— [placeholder]</span></li>
+      <li><b>Mentoring</b> <span class="muted">— [placeholder]</span></li>
+      <li><b>Simple tech choices</b> <span class="muted">— [placeholder]</span></li>
+      <li><b>Release discipline</b> <span class="muted">— [placeholder]</span></li>
+      <li><b>Unclear asks → specs</b> <span class="muted">— [placeholder]</span></li>
+    </ul>
+  </section>
+
+  <section id="writing" aria-labelledby="writing-title">
+    <p class="eyebrow">Writing</p>
+    <h2 id="writing-title">Notes</h2>
+    <div class="grid g3 notes">
+      {
+        essays.map((essay) => (
+          <div class="card">
+            <h3>
+              <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
+            </h3>
+            <p>{essay.data.summary}</p>
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <section class="section" id="live-demo" aria-labelledby="live-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Demo</p>
-        <h2 id="live-title">Sample data</h2>
-        <p class="lede">
-          A soiling-loss chart from solar telemetry. Proof of the platform work. The series is synthetic.
-        </p>
-      </header>
-      <link rel="stylesheet" href="/widget/soiling-widget.css" />
-      <div class="sw" data-soiling data-src="/widget/data.json"></div>
-      <script is:inline src="/widget/soiling-widget.js" defer></script>
-    </div>
+  <section aria-labelledby="foundations-title">
+    <p class="eyebrow" id="foundations-title">Foundations</p>
+    <p>
+      M.Tech CS, IIT Ropar (2018–2020). Research on permutation-based indexing, KD-trees/quadtrees, and
+      facial-expression recognition (78% accuracy).
+    </p>
   </section>
 
-  <section class="section" id="writing" aria-labelledby="writing-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Notes</p>
-        <h2 id="writing-title">Writing</h2>
-      </header>
-      <ol class="writing-list">
-        {
-          essays.map((essay) => (
-            <li>
-              <div class="writing-list__row">
-                <h3>
-                  <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
-                </h3>
-                <span class="status">{essay.data.status}</span>
-              </div>
-              <p>{essay.data.summary}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section" id="foundations" aria-labelledby="foundations-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Background</p>
-        <h2 id="foundations-title">Foundations</h2>
-      </header>
-      <div class="foundation-grid">
-        <article class="plate">
-          <h3>M.Tech CS, IIT Ropar (2018–2020)</h3>
-          <h3>Research</h3>
-          <ul class="plain-list">
-            <li>Permutation-based indexing for big-data search</li>
-            <li>KD-trees and quadtrees</li>
-            <li>Facial-expression recognition (78% accuracy)</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>Earlier</h3>
-          <ul class="earlier">
-            {
-              earlier.map((item) => (
-                <li>
-                  <a href={item.href}>{item.title}</a>
-                  <p>{item.detail}</p>
-                </li>
-              ))
-            }
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Reach</p>
-        <h2 id="contact-title">Contact</h2>
-      </header>
-      <ul class="contact-list">
-        <li>
-          <a href={`mailto:${site.email}`}>Email <span>{site.email}</span></a>
-        </li>
-        <li>
-          <a href={site.linkedin} rel="me noreferrer">
-            LinkedIn <span>linkedin.com/in/ganesh-prasad</span>
-          </a>
-        </li>
-        <li>
-          <a href={site.github} rel="me noreferrer">
-            GitHub <span>github.com/PrasadGanesh</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+  <section id="contact" aria-labelledby="contact-title">
+    <p class="eyebrow" id="contact-title">Contact</p>
+    <p class="cta">
+      <a href={`mailto:${site.email}`}>Email</a>
+      <a href={site.linkedin}>LinkedIn</a>
+      <a href={site.github}>GitHub</a>
+    </p>
   </section>
 </Base>

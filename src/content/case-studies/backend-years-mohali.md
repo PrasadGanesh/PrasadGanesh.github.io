@@ -1,9 +1,9 @@
 ---
-title: Backend years in Mohali
+title: The backend years in Mohali
 problem: "[placeholder]"
 tried: "[placeholder]"
 worked: "[placeholder]"
-result: "[placeholder]"
+result: "[number]"
 metrics:
   - "[what shipped]"
   - "[team size]"

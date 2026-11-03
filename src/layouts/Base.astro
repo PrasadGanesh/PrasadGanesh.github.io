@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import ThemeBoot from '../components/ThemeBoot.astro';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 
 interface Props {
@@ -39,8 +38,10 @@ const json = JSON.stringify(person).replace(/</g, '\\u003c');
 
 <html lang="en">
   <head>
-    <Seo title={title} description={description} noindex={noindex} />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ThemeBoot />
+    <Seo title={title} description={description} noindex={noindex} />
     {jsonLd && <script type="application/ld+json" set:html={json} />}
   </head>
   <body>
@@ -48,6 +49,5 @@ const json = JSON.stringify(person).replace(/</g, '\\u003c');
     <main id="content" tabindex="-1">
       <slot />
     </main>
-    <Footer />
   </body>
 </html>

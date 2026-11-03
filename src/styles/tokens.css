@@ -1,26 +1,21 @@
-/*
-  Design tokens. This is the only palette file. Swap colours here when the
-  designer sends the final B2 set.
-
-  Dark is the night-sky default. Light is a warm off-white with a darker amber.
-  Every text colour below is at least 7:1 on --color-bg, --color-surface, and
-  --color-sunken. --color-on-accent on --color-accent is also at least 7:1.
-
-  Theme boot (src/components/ThemeBoot.astro) copies these two backgrounds into
-  the theme-color meta tag. Update both if --color-bg changes.
-    dark  #0b1426
-    light #f6f1e7
-*/
-
+/* B2 Leader design tokens. Swap this file when the designer sends a revision.
+   Fraunces and Inter are self-hosted Latin subsets, not loaded from Google Fonts. */
 @font-face {
   font-family: Fraunces;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   font-display: swap;
-  src: url("/fonts/fraunces-latin-500.woff2") format("woff2");
+  src: url("/fonts/fraunces-latin-400.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
+@font-face {
+  font-family: Fraunces;
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/fraunces-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 @font-face {
   font-family: Inter;
   font-style: normal;
@@ -29,7 +24,6 @@
   src: url("/fonts/inter-latin-400.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: Inter;
   font-style: normal;
@@ -40,91 +34,65 @@
 }
 
 :root {
-  --font-sans: Inter, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
-
-  --display-weight: 500;
-  --display-track: 0;
-  --kicker-font: var(--font-sans);
-  --kicker-transform: none;
-  --kicker-track: 0;
-
-  --text-sm: 0.875rem;
-  --text-md: 1.0625rem;
-  --text-lg: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
-  --text-xl: clamp(2.2rem, 1.5rem + 2.2vw, 3.6rem);
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2.75rem;
-  --space-7: 5rem;
-
-  --line: 1px;
-  --measure: 66ch;
-  --header-h: 4.25rem;
-  --duration-flow: 2.4s;
-  --duration-tape: 18s;
-  --ease: linear;
-
-  --hero-plate: transparent;
-  --hero-border: 0 solid transparent;
-  --button-bg: transparent;
-  --button-fg: var(--color-accent);
-  --button-border: var(--color-accent);
-  --focus-ring: 2px solid var(--color-accent);
-
-  color-scheme: dark;
+  --font-display: Fraunces, Georgia, serif;
+  --font-body: Inter, system-ui, sans-serif;
+  /* type scale (mobile → desktop ≥900px) */
+  --fs-body: 16px;
+  --fs-eyebrow: 12px;
+  --fs-h3: 17px;
+  --fs-h2: 28px;
+  --fs-h2-lg: 38px;
+  --fs-h1: 34px;
+  --fs-h1-lg: 52px;
+  --lh-body: 1.6;
+  --lh-head: 1.15;
+  /* spacing */
+  --sp-1: 6px;
+  --sp-2: 8px;
+  --sp-3: 14px;
+  --sp-4: 20px;
+  --sp-5: 28px;
+  --sp-6: 40px;
+  --sp-7: 56px;
+  --sp-8: 72px;
+  --gutter-lg: 96px;
+  --radius-card: 14px;
+  --radius-btn: 10px;
+  --bp: 900px;
 }
 
-/* Dark — night-sky navy. */
 :root,
 [data-theme="dark"] {
-  --color-bg: #0b1426;
-  --color-surface: #141c30;
-  --color-sunken: #070d18;
-  --color-text: #f6f1e6;
-  --color-muted: #e4dccb;
-  --color-faint: #d4cbb8;
-  --color-accent: #f0c36a;
-  --color-on-accent: #1a1206;
-  --color-line: #8b97b0;
-  --color-ok: #d5ecc4;
-  --color-grid: #1c2740;
-}
-
-/* Light — warm off-white. Amber is darker so text stays at 7:1. */
-[data-theme="light"] {
-  --color-bg: #f6f1e7;
-  --color-surface: #fffaf3;
-  --color-sunken: #ebe4d6;
-  --color-text: #1c1915;
-  --color-muted: #3f382f;
-  --color-faint: #4a4036;
-  --color-accent: #6b3a00;
-  --color-on-accent: #fffaf3;
-  --color-line: #6d6458;
-  --color-ok: #1f5c32;
-  --color-grid: #e3dacb;
-  color-scheme: light;
+  --bg: #0e1a2b;
+  --panel: #13233a;
+  --line: #22385a;
+  --edge: #3a5478;
+  --text: #eef2f7;
+  --muted: #a9b6c8;
+  --amber: #f5b544;
+  --pulse: #f5b544;
 }
 
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --color-bg: #f6f1e7;
-    --color-surface: #fffaf3;
-    --color-sunken: #ebe4d6;
-    --color-text: #1c1915;
-    --color-muted: #3f382f;
-    --color-faint: #4a4036;
-    --color-accent: #6b3a00;
-    --color-on-accent: #fffaf3;
-    --color-line: #6d6458;
-    --color-ok: #1f5c32;
-    --color-grid: #e3dacb;
-    color-scheme: light;
+  :root:not([data-theme]) {
+    --bg: #faf7f0;
+    --panel: #f2ecdf;
+    --line: #e0d6c2;
+    --edge: #b9ac92;
+    --text: #1b2333;
+    --muted: #3f4a5c;
+    --amber: #6b4400;
+    --pulse: #c47f0a;
   }
+}
+
+[data-theme="light"] {
+  --bg: #faf7f0;
+  --panel: #f2ecdf;
+  --line: #e0d6c2;
+  --edge: #b9ac92;
+  --text: #1b2333;
+  --muted: #3f4a5c;
+  --amber: #6b4400;
+  --pulse: #c47f0a;
 }

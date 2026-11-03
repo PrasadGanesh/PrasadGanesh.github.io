@@ -1,9 +1,9 @@
 ---
 title: Owning a data platform end to end
-problem: "[placeholder] The platform needed an owner for the architecture, not another pile of one-off jobs."
-tried: "[placeholder] Architecture options, and the trade-offs between them."
+problem: "[placeholder]"
+tried: "[placeholder]"
 worked: "[placeholder]"
-result: "[placeholder]"
+result: "[number]"
 metrics:
   - "[placeholder]"
 stack:

@@ -1,6 +1,6 @@
 ---
-title: "[placeholder] piece"
-summary: "[placeholder]"
+title: "[essay title]"
+summary: "[abstract]"
 status: stub
 order: 2
 ---

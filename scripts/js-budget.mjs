@@ -49,13 +49,12 @@ if (gzipBytes > limit) {
 }
 
 const required = [
-  'Data and backend engineer. I build the platforms teams run on',
-  'How I lead',
+  'Data and backend engineer.',
+  'I build the platforms teams run on, and I lead the people who build them.',
+  'Habits, not titles',
   'GAIA: an AI agent as a production system',
-  'Backend years in Mohali',
+  'The backend years in Mohali',
   'linkedin.com/in/ganesh-prasad',
-  'live-demo',
-  'Sample data',
   'prefers-reduced-motion',
   'application/ld+json',
 ];

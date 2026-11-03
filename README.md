@@ -17,9 +17,7 @@ npm run preview
 - Profile links: `src/data/site.ts`
 - Live demo widget: `public/widget/` (`soiling-widget.js`, `soiling-widget.css`, `data.json`)
 - Hero flow: `src/components/SystemFlow.astro`
-- Palette: `src/styles/tokens.css` (dark night-sky and warm light). The header sun/moon toggle stores the choice in `localStorage`. With no saved choice, the site follows `prefers-color-scheme`.
-
-The live demo loads the widget with a plain `<script is:inline>`. Its colours read the tokens in `src/styles/tokens.css`.
+- Palette: `src/styles/tokens.css` is the B2 handoff (dark and light). Fraunces and Inter are self-hosted subsets. The header sun/moon toggle stores the choice in `localStorage`. With no saved choice, the boot script follows `prefers-color-scheme`.
 
 ## Checks
 

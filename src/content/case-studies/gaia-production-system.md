@@ -1,9 +1,9 @@
 ---
 title: "GAIA: an AI agent as a production system"
-problem: "[placeholder] An agent in production is orchestration, APIs, and reliability."
+problem: "[placeholder]"
 tried: "[placeholder]"
-worked: "[placeholder] Orchestration, CRUD APIs, and the reliability work around them."
-result: "[placeholder]"
+worked: "[placeholder]"
+result: "[number]"
 metrics:
   - "[placeholder]"
 stack:
