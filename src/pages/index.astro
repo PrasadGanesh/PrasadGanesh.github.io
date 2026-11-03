@@ -3,68 +3,121 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SystemFlow from '../components/SystemFlow.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
+import PoseFallback from '../components/PoseFallback.astro';
+import Desk from '../components/character/Desk.astro';
+import Pipes from '../components/character/Pipes.astro';
+import Tests from '../components/character/Tests.astro';
+import Payment from '../components/character/Payment.astro';
+import Wave from '../components/character/Wave.astro';
 import { site } from '../data/site';
 
 const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
 const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
+const poseFor: Record<string, string> = {
+  'owning-a-data-platform': 'pipes',
+  'automated-fault-scoring': 'tests',
+  'backend-years-mohali': 'payment',
+};
+const backend = studies.find((study) => study.id === 'backend-years-mohali');
+if (!backend) throw new Error('Missing backend case study');
 ---
 
 <Base title={site.title} description={site.description} jsonLd>
-  <section class="hero" aria-labelledby="hero-title">
-    <div>
-      <p class="eyebrow">Data · Backend · Leadership</p>
-      <h1 id="hero-title">
-        Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
-      </h1>
-      <p class="proof">
-        ~3.5 years building Python backends, then owned a data platform end to end. M.Tech, IIT Ropar.
-      </p>
-      <p class="cta">
-        <a href="#work">Case studies</a>
-        <a href="#contact">Contact</a>
-      </p>
+  <div class="cast">
+    <div class="cast-stage" aria-hidden="true">
+      <div class="slot slot-desk"><Desk /></div>
+      <div class="slot slot-pipes"><Pipes /></div>
+      <div class="slot slot-tests"><Tests /></div>
+      <div class="slot slot-payment"><Payment /></div>
+      <div class="slot slot-wave"><Wave /></div>
     </div>
-    <SystemFlow />
-  </section>
-
-  <section aria-labelledby="work-kinds-title">
-    <p class="eyebrow">What I do</p>
-    <h2 id="work-kinds-title">Three kinds of systems</h2>
-    <div class="grid g3">
-      <div class="card">
-        <h3>Data platforms</h3>
-        <p>Spark, Airflow, time-series stores, pipelines</p>
+    <div class="cast-flow">
+  <div class="beat" data-pose="desk">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Data · Backend · Leadership</p>
+        <h1 id="hero-title">
+          Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
+        </h1>
+        <p class="proof">
+          ~3.5 years building Python backends, then owned a data platform end to end. M.Tech, IIT Ropar.
+        </p>
+        <p class="cta">
+          <a href="#work">Case studies</a>
+          <a href="#contact">Contact</a>
+        </p>
       </div>
-      <div class="card">
-        <h3>Backend systems</h3>
-        <p>FastAPI, Django, APIs, MongoDB, Postgres, Redis</p>
-      </div>
-      <div class="card">
-        <h3>AI agents &amp; applied ML</h3>
-        <p>Agents in production, detection models, evaluation</p>
-      </div>
+      <SystemFlow />
+    </section>
+    <div class="pin" aria-hidden="true">
+      <Desk />
     </div>
-  </section>
+    <section class="kinds" aria-labelledby="work-kinds-title">
+      <p class="eyebrow">What I do</p>
+      <h2 id="work-kinds-title">Three kinds of systems</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Data platforms</h3>
+          <p>Spark, Airflow, time-series stores, pipelines</p>
+        </div>
+        <div class="card">
+          <h3>Backend systems</h3>
+          <p>FastAPI, Django, APIs, MongoDB, Postgres, Redis</p>
+        </div>
+        <div class="card">
+          <h3>AI agents &amp; applied ML</h3>
+          <p>Agents in production, detection models, evaluation</p>
+        </div>
+      </div>
+    </section>
+  </div>
 
-  <section id="work" aria-labelledby="case-title">
-    <p class="eyebrow">Case studies</p>
-    <h2 id="case-title">Engineering and leadership stories</h2>
-    <div class="grid g2">
-      {
-        studies.map((study) => (
-          <CaseStudyCard
-            href={`/case-studies/${study.id}/`}
-            title={study.data.title}
-            problem={study.data.problem}
-            tried={study.data.tried}
-            worked={study.data.worked}
-            result={study.data.result}
-          />
-        ))
-      }
+  {
+    studies.filter((study) => study.id !== 'backend-years-mohali').map((study) => {
+      const pose = poseFor[study.id];
+      return (
+        <div class="beat" data-pose={pose} id={study.id === 'owning-a-data-platform' ? 'work' : undefined}>
+          <div class="pin" aria-hidden="true">
+            {pose === 'pipes' && <Pipes />}
+            {pose === 'tests' && <Tests />}
+            {pose === 'payment' && <Payment />}
+          </div>
+          <section aria-labelledby={study.id === 'owning-a-data-platform' ? 'case-title' : undefined}>
+            {study.id === 'owning-a-data-platform' && (
+              <>
+                <p class="eyebrow">Case studies</p>
+                <h2 id="case-title">Engineering and leadership stories</h2>
+              </>
+            )}
+            <CaseStudyCard
+              href={`/case-studies/${study.id}/`}
+              title={study.data.title}
+              problem={study.data.problem}
+              tried={study.data.tried}
+              worked={study.data.worked}
+              result={study.data.result}
+            />
+          </section>
+        </div>
+      );
+    })
+  }
+
+  <div class="beat" data-pose="payment">
+    <div class="pin" aria-hidden="true">
+      <Payment />
     </div>
-  </section>
-
+    <section>
+      <CaseStudyCard
+        href="/case-studies/backend-years-mohali/"
+        title={backend.data.title}
+        problem={backend.data.problem}
+        tried={backend.data.tried}
+        worked={backend.data.worked}
+        result={backend.data.result}
+      />
+    </section>
+    <div class="rail">
   <section id="lead" aria-labelledby="lead-title">
     <p class="eyebrow">How I lead</p>
     <h2 id="lead-title">Habits, not titles</h2>
@@ -102,12 +155,23 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
     </p>
   </section>
 
-  <section id="contact" aria-labelledby="contact-title">
-    <p class="eyebrow" id="contact-title">Contact</p>
-    <p class="cta">
-      <a href={`mailto:${site.email}`}>Email</a>
-      <a href={site.linkedin}>LinkedIn</a>
-      <a href={site.github}>GitHub</a>
-    </p>
-  </section>
+    </div>
+  </div>
+
+  <div class="beat" data-pose="wave">
+    <div class="pin" aria-hidden="true">
+      <Wave />
+    </div>
+    <section id="contact" aria-labelledby="contact-title">
+      <p class="eyebrow" id="contact-title">Contact</p>
+      <p class="cta">
+        <a href={`mailto:${site.email}`}>Email</a>
+        <a href={site.linkedin}>LinkedIn</a>
+        <a href={site.github}>GitHub</a>
+      </p>
+    </section>
+  </div>
+    </div>
+  </div>
+  <PoseFallback />
 </Base>

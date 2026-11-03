@@ -1,9 +1,54 @@
 /* B2 Leader design tokens. Swap this file when the designer sends a revision.
    Fraunces and Inter are self-hosted Latin subsets (public/fonts/faces.css),
-   applied after the first paint so the hero can render with the fallback face. */
+   applied after the first paint. The local fallbacks are metric-matched so
+   that swap does not move the hero. */
+@font-face {
+  font-family: "Fraunces Fallback";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Serif"), local("Georgia"), local("Times New Roman"), local("Nimbus Roman");
+  size-adjust: 119%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Fraunces Fallback";
+  font-style: italic;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Serif"), local("Georgia"), local("Times New Roman"), local("Nimbus Roman");
+  size-adjust: 119%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Sans"), local("Arial"), local("Helvetica"), local("Nimbus Sans");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: local("Liberation Sans"), local("Arial Bold"), local("Arial"), local("Helvetica"), local("Nimbus Sans");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
 :root {
-  --font-display: Fraunces, Georgia, serif;
-  --font-body: Inter, system-ui, sans-serif;
+  --font-display: Fraunces, "Fraunces Fallback", serif;
+  --font-body: Inter, "Inter Fallback", system-ui, sans-serif;
   /* type scale (mobile → desktop ≥900px) */
   --fs-body: 16px;
   --fs-eyebrow: 12px;

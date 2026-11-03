@@ -1,0 +1,414 @@
+/* Scroll-synced poses. One file per pose lives in components/character.
+   Wide screens with scroll timelines use one sticky stage and crossfade poses.
+   Small screens, reduced motion, and browsers without scroll timelines
+   show the inline figure in each section instead. */
+
+.pin {
+  width: 200px;
+  height: 240px;
+  margin: 8px auto 0;
+  pointer-events: none;
+}
+
+.pose {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--text);
+}
+
+.pose .ink {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pose .fill {
+  fill: var(--panel);
+  stroke: var(--edge);
+  stroke-width: 2;
+}
+
+.pose .paper {
+  fill: var(--bg);
+  stroke: var(--edge);
+  stroke-width: 2;
+}
+
+.pose .amber {
+  fill: var(--amber);
+}
+
+.pose .amber-line {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pose .skin {
+  fill: var(--muted);
+}
+
+.pose .label {
+  fill: currentColor;
+  font: 600 13px var(--font-body);
+}
+
+.pose .arm,
+.pose .bead,
+.pose .watch-hand,
+.pose .slip,
+.pose .wave-arm {
+  transform-box: view-box;
+}
+
+.pose .arm {
+  transform-origin: 96px 146px;
+}
+
+.pose .watch-hand {
+  transform-origin: 142px 78px;
+}
+
+.pose .wave-arm {
+  transform-origin: 118px 112px;
+}
+
+.cast {
+  timeline-scope: --desk, --pipes, --tests, --payment, --wave;
+}
+
+.cast-stage {
+  display: none;
+}
+
+.slot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+@media (min-width: 900px) {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .cast {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        column-gap: 32px;
+        align-items: start;
+        padding-left: var(--gutter-lg);
+        padding-right: var(--gutter-lg);
+      }
+
+      .cast-stage {
+        display: block;
+        position: sticky;
+        top: 24px;
+        grid-column: 2;
+        grid-row: 1;
+        width: 200px;
+        height: 240px;
+        margin-top: 40px;
+      }
+
+      .cast-flow {
+        grid-column: 1;
+        grid-row: 1;
+        min-width: 0;
+      }
+
+      .beat > .pin {
+        display: none;
+      }
+    }
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .beat[data-pose="desk"] {
+    view-timeline-name: --desk;
+  }
+
+  .beat[data-pose="pipes"] {
+    view-timeline-name: --pipes;
+  }
+
+  .beat[data-pose="tests"] {
+    view-timeline-name: --tests;
+  }
+
+  .beat[data-pose="payment"] {
+    view-timeline-name: --payment;
+  }
+
+  .beat[data-pose="wave"] {
+    view-timeline-name: --wave;
+  }
+
+  .slot-desk {
+    animation: pose-desk linear both;
+    animation-range: cover;
+  }
+
+  .slot-pipes,
+  .slot-tests {
+    animation: pose-short linear both;
+    animation-range: cover;
+  }
+
+  .slot-payment {
+    animation: pose-payment linear both;
+    animation-range: cover;
+  }
+
+  .slot-wave {
+    animation: pose-wave linear both;
+    animation-range: cover;
+  }
+
+  @media (min-width: 900px) {
+    .beat[data-pose="wave"] {
+      min-height: 100vh;
+    }
+  }
+
+  .slot-desk {
+    animation-timeline: --desk;
+  }
+
+  .slot-pipes {
+    animation-timeline: --pipes;
+  }
+
+  .slot-tests {
+    animation-timeline: --tests;
+  }
+
+  .slot-payment {
+    animation-timeline: --payment;
+  }
+
+  .slot-wave {
+    animation-timeline: --wave;
+  }
+
+  .slot-desk .arm,
+  .beat[data-pose="desk"] .arm {
+    animation: desk-type linear both;
+    animation-range: cover;
+  }
+
+  .slot-pipes .bead,
+  .beat[data-pose="pipes"] .bead {
+    animation: pipe-run linear both;
+    animation-range: cover;
+  }
+
+  .slot-pipes .b2,
+  .beat[data-pose="pipes"] .b2 {
+    animation-range: cover 15% cover 100%;
+  }
+
+  .slot-pipes .b3,
+  .beat[data-pose="pipes"] .b3 {
+    animation-range: cover 30% cover 100%;
+  }
+
+  .slot-tests .watch-hand,
+  .beat[data-pose="tests"] .watch-hand {
+    animation: watch-sweep linear both;
+    animation-range: cover;
+  }
+
+  .slot-payment .slip,
+  .beat[data-pose="payment"] .slip {
+    animation: slip-fix linear both;
+    animation-range: cover;
+  }
+
+  .slot-wave .wave-arm,
+  .beat[data-pose="wave"] .wave-arm {
+    animation: wave-arm linear both;
+    animation-range: cover;
+  }
+
+  /* Timeline stays in its own rule. The minifier folds it into `animation` and Chrome drops the declaration. */
+  .slot-desk .arm,
+  .beat[data-pose="desk"] .arm {
+    animation-timeline: --desk;
+  }
+
+  .slot-pipes .bead,
+  .beat[data-pose="pipes"] .bead {
+    animation-timeline: --pipes;
+  }
+
+  .slot-tests .watch-hand,
+  .beat[data-pose="tests"] .watch-hand {
+    animation-timeline: --tests;
+  }
+
+  .slot-payment .slip,
+  .beat[data-pose="payment"] .slip {
+    animation-timeline: --payment;
+  }
+
+  .slot-wave .wave-arm,
+  .beat[data-pose="wave"] .wave-arm {
+    animation-timeline: --wave;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pin,
+    .pose,
+    .pose * {
+      animation: none !important;
+    }
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .beat.is-active .arm {
+      animation: desk-type 1.6s ease-in-out infinite alternate;
+    }
+
+    .beat.is-active .bead {
+      animation: pipe-run 2.4s linear infinite;
+    }
+
+    .beat.is-active .watch-hand {
+      animation: watch-sweep 2s linear infinite alternate;
+    }
+
+    .beat.is-active .slip {
+      animation: slip-fix 1.8s ease-in-out infinite alternate;
+    }
+
+    .beat.is-active .wave-arm {
+      animation: wave-arm 1.2s ease-in-out infinite alternate;
+    }
+  }
+}
+
+@keyframes pose-desk {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  18%,
+  74% {
+    opacity: 1;
+  }
+  86%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pose-short {
+  0%,
+  36% {
+    opacity: 0;
+  }
+  44%,
+  56% {
+    opacity: 1;
+  }
+  64%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pose-payment {
+  0%,
+  16% {
+    opacity: 0;
+  }
+  26%,
+  68% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pose-wave {
+  0%,
+  6% {
+    opacity: 0;
+  }
+  16%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes desk-type {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes pipe-run {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100px);
+  }
+}
+
+@keyframes watch-sweep {
+  from {
+    transform: rotate(-40deg);
+  }
+  to {
+    transform: rotate(210deg);
+  }
+}
+
+@keyframes slip-fix {
+  from {
+    transform: translate(10px, 8px);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes wave-arm {
+  from {
+    transform: rotate(6deg);
+  }
+  to {
+    transform: rotate(-22deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cast-stage {
+    display: none !important;
+  }
+
+  .cast {
+    display: block !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .beat > .pin {
+    display: block !important;
+    position: static !important;
+  }
+}
