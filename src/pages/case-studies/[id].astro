@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Readout from '../../components/Readout.astro';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('caseStudies');
+  return studies.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const title = `${entry.data.title} — Ganesh Prasad`;
+const description = `Case study: ${entry.data.title}. Figures are not published yet.`;
+---
+
+<Base title={title} description={description}>
+  <article class="section">
+    <div class="wrap">
+      <p class="kicker"><a href="/#case-studies">Case studies</a></p>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">Placeholder figures. No measured results are published on this page.</p>
+      <Readout
+        id={entry.id}
+        problem={entry.data.problem}
+        tried={entry.data.tried}
+        worked={entry.data.worked}
+        result={entry.data.result}
+        metrics={entry.data.metrics}
+        stack={entry.data.stack}
+      />
+      <h2 class="notes-title">Notes</h2>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,14 @@
+verbose = "warn"
+no_progress = true
+include_mail = false
+max_retries = 2
+timeout = 20
+accept = ["200..=299", "429"]
+index_files = ["index.html"]
+include_fragments = "full"
+exclude_path = ["referenceforcpalgo\\.html"]
+# These profiles are real, but both hosts reject anonymous link checkers.
+exclude = [
+  '^https://(www\.)?linkedin\.com',
+  '^https://([a-z0-9-]+\.)?medium\.com',
+]

@@ -1,0 +1,183 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SolarStream from '../components/SolarStream.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import LiveDemo from '../components/LiveDemo.astro';
+import { earlier, site } from '../data/site';
+
+const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
+const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title={site.title} description={site.description} jsonLd>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__copy">
+      <p class="kicker">{site.name} · SmartHelio</p>
+      <h1 id="hero-title">
+        Data engineer for solar and battery storage. I turn plant telemetry into decisions.
+      </h1>
+      <p class="hero__links">
+        <a href="#case-studies">Case studies</a>
+        <a href="#contact">Contact</a>
+      </p>
+    </div>
+    <div class="hero__stream">
+      <SolarStream />
+    </div>
+  </section>
+
+  <section class="section" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">01 — Work</p>
+        <h2 id="work-title">What I do</h2>
+        <p class="lede">
+          Time-series data platforms at SmartHelio, a YC-backed solar company, plus fault and
+          soiling detection and AI agents.
+        </p>
+      </header>
+      <div class="work-grid">
+        <article class="plate">
+          <h3>Time-series data platforms</h3>
+          <ul class="stack">
+            <li>Python</li>
+            <li>Spark</li>
+            <li>Airflow</li>
+            <li>FastAPI</li>
+            <li>AWS Timestream</li>
+          </ul>
+        </article>
+        <article class="plate">
+          <h3>Fault and soiling detection</h3>
+          <p>Detection on plant telemetry.</p>
+        </article>
+        <article class="plate">
+          <h3>AI agents</h3>
+          <p>Agents on top of the telemetry platform.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="case-studies" aria-labelledby="case-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">02 — Cases</p>
+        <h2 id="case-title">Case studies</h2>
+        <p class="lede">Problem, what was tried, what worked, and the result. Figures are still placeholders.</p>
+      </header>
+      <div class="cases">
+        {
+          studies.map((study) => (
+            <CaseStudyCard
+              id={study.id}
+              href={`/case-studies/${study.id}/`}
+              title={study.data.title}
+              problem={study.data.problem}
+              tried={study.data.tried}
+              worked={study.data.worked}
+              result={study.data.result}
+              metrics={study.data.metrics}
+              stack={study.data.stack}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="live-demo" aria-labelledby="live-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">03 — Chart</p>
+        <h2 id="live-title">Live demo</h2>
+        <p class="lede">
+          Empty slot for a JSON dataset and a chart. Nothing here is live plant data.
+        </p>
+      </header>
+      <LiveDemo label="sample data" />
+    </div>
+  </section>
+
+  <section class="section" id="thinking" aria-labelledby="thinking-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">04 — Notes</p>
+        <h2 id="thinking-title">Thinking</h2>
+      </header>
+      <div class="essay-slot">
+        {
+          essays.map((essay) => (
+            <article class="plate">
+              <p>
+                <span class="status">{essay.data.status}</span>
+              </p>
+              <h3>
+                <a href={`/thinking/${essay.id}/`}>{essay.data.title}</a>
+              </h3>
+              <p>{essay.data.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="foundations" aria-labelledby="foundations-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">05 — Background</p>
+        <h2 id="foundations-title">Foundations</h2>
+      </header>
+      <div class="foundation-grid">
+        <article class="plate">
+          <h3>M.Tech CS, IIT Ropar (2018–2020)</h3>
+          <h3>Research</h3>
+          <ul class="plain-list">
+            <li>Permutation-based indexing for big-data search</li>
+            <li>KD-trees and quadtrees</li>
+            <li>Facial-expression recognition (78% accuracy)</li>
+          </ul>
+        </article>
+        <article class="plate">
+          <h3>Earlier</h3>
+          <ul class="earlier">
+            {
+              earlier.map((item) => (
+                <li>
+                  <a href={item.href}>{item.title}</a>
+                  <p>{item.detail}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="kicker">06 — Reach</p>
+        <h2 id="contact-title">Contact</h2>
+      </header>
+      <ul class="contact-list">
+        <li>
+          <a href={`mailto:${site.email}`}>Email <span>{site.email}</span></a>
+        </li>
+        <li>
+          <a href={site.linkedin} rel="me noreferrer">
+            LinkedIn <span>linkedin.com/in/ganesh-prasad</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.github} rel="me noreferrer">
+            GitHub <span>github.com/PrasadGanesh</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>

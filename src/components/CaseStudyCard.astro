@@ -1,0 +1,22 @@
+---
+import Readout from './Readout.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  href: string;
+  problem: string;
+  tried: string;
+  worked: string;
+  result: string;
+  metrics: string[];
+  stack: string[];
+}
+
+const { id, title, href, ...readout } = Astro.props;
+---
+
+<article class="plate">
+  <h3><a href={href}>{title}</a></h3>
+  <Readout id={id} {...readout} />
+</article>

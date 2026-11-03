@@ -1,0 +1,42 @@
+---
+interface Props {
+  id: string;
+  problem: string;
+  tried: string;
+  worked: string;
+  result: string;
+  metrics: string[];
+  stack: string[];
+}
+
+const { id, problem, tried, worked, result, metrics, stack } = Astro.props;
+const metricsId = `${id}-metrics`;
+const stackId = `${id}-stack`;
+---
+
+<dl class="readout">
+  <div>
+    <dt>Problem</dt>
+    <dd>{problem}</dd>
+  </div>
+  <div>
+    <dt>Tried</dt>
+    <dd>{tried}</dd>
+  </div>
+  <div>
+    <dt>Worked</dt>
+    <dd>{worked}</dd>
+  </div>
+  <div>
+    <dt>Result</dt>
+    <dd>{result}</dd>
+  </div>
+</dl>
+<p class="field-label" id={metricsId}>Metrics</p>
+<ul class="chips" aria-labelledby={metricsId}>
+  {metrics.map((metric) => <li>{metric}</li>)}
+</ul>
+<p class="field-label" id={stackId}>Stack</p>
+<ul class="chips chips--ghost" aria-labelledby={stackId}>
+  {stack.map((item) => <li>{item}</li>)}
+</ul>

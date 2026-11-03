@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run budget
+
+      - name: Link check
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config .lychee.toml --root-dir ${{ github.workspace }}/dist --remap "https://ganeshprasad.com file://${{ github.workspace }}/dist" dist
+          fail: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lighthouse CI (warn only)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+        continue-on-error: true

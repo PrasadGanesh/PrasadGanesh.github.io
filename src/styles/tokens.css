@@ -1,0 +1,55 @@
+/*
+  Design tokens. Restyle the site by editing this file only.
+  Text tokens are paired with --color-bg and --color-surface.
+  Measured contrast (WCAG):
+    --color-text on --color-bg        16.6:1
+    --color-muted on --color-bg       11.6:1
+    --color-faint on --color-surface   8.8:1
+    --color-accent on --color-bg      11.6:1
+    --color-accent on --color-surface 10.3:1
+    --color-on-accent on --color-accent 11.3:1
+  Keep body text at or above 4.5:1, and UI boundaries that identify a control
+  at or above 3:1, when these values change.
+  The theme-color meta tag in Seo.astro repeats --color-bg. Update both.
+*/
+
+:root {
+  --color-bg: #10130c;
+  --color-surface: #1b2016;
+  --color-sunken: #0b0d09;
+  --color-text: #f4f1e6;
+  --color-muted: #d2cbb8;
+  --color-faint: #b7c0a4;
+  --color-accent: #ffc14d;
+  --color-on-accent: #1c1404;
+  --color-line: #6d7a57;
+  --color-ok: #c6ef9a;
+  --color-grid: #24301c;
+
+  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  --text-sm: 0.875rem;
+  --text-md: 1.0625rem;
+  --text-lg: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
+  --text-xl: clamp(2.05rem, 1.45rem + 2vw, 3.35rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+  --space-7: 4.5rem;
+
+  --line: 1px;
+  --measure: 68ch;
+  --header-h: 4.25rem;
+  --duration-flow: 2.6s;
+  --duration-soc: 7s;
+  --duration-tape: 18s;
+  --duration-spin: 28s;
+  --ease: linear;
+
+  --focus-ring: 2px solid var(--color-accent);
+}

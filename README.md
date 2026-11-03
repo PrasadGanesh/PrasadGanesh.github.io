@@ -1,0 +1,29 @@
+# Ganesh Prasad
+
+Static portfolio. Astro builds a GitHub Pages-ready `dist/` directory. This repo does not deploy; publishing `dist/` is handled separately.
+
+```bash
+npm ci
+npm run dev
+npm run build
+npm run preview
+```
+
+## Where to edit
+
+- Visual tokens (color, type, space, motion): `src/styles/tokens.css`
+- Case studies: `src/content/case-studies/`
+- Essays: `src/content/essays/`
+- Profile links: `src/data/site.ts`
+- Empty chart slot: `src/components/LiveDemo.astro`
+- Sample plant animation: `src/components/SolarStream.astro`
+
+The chart slot takes a `dataset` prop and a `label` (default `sample data`). It does not load a chart library. Listen for `livedemo:ready` and draw into `[data-chart]`.
+
+## Checks
+
+`npm run budget` fails when homepage JavaScript exceeds 50KB gzip. Pull requests also run a link check and Lighthouse CI. Lighthouse assertions are warnings and do not fail the job.
+
+## Old URLs
+
+`/generic.html`, `/elements.html`, and `/blog/indexblog.html` redirect home. `/blog/pages/referenceforcpalgo.html` is the preserved algorithm-notes page. Images, the favicon, and `SunDayNights.jpg` stay at their previous paths.

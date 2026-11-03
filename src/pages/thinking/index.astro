@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Thinking — Ganesh Prasad"
+  description="Notes and essays by Ganesh Prasad. The featured piece is still a stub."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker"><a href="/#thinking">Home</a></p>
+      <h1>Thinking</h1>
+      <div class="essay-slot block-gap">
+        {
+          essays.map((essay) => (
+            <article class="plate">
+              <p>
+                <span class="status">{essay.data.status}</span>
+              </p>
+              <h2>
+                <a href={`/thinking/${essay.id}/`}>{essay.data.title}</a>
+              </h2>
+              <p>{essay.data.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
