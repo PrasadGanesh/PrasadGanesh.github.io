@@ -1,6 +1,6 @@
 # Ganesh Prasad
 
-Static portfolio. Astro builds a GitHub Pages-ready `dist/` directory. This repo does not deploy; publishing `dist/` is handled separately.
+Static portfolio. Astro builds the site published to GitHub Pages. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ```bash
 npm ci
@@ -21,7 +21,7 @@ npm run preview
 
 ## Checks
 
-`npm run budget` fails when homepage JavaScript exceeds 50KB gzip. Pull requests also run a link check and Lighthouse CI. Lighthouse assertions are warnings and do not fail the job.
+`npm run budget` fails when homepage JavaScript exceeds 50KB gzip. Pull requests run `astro check`, the production build, a link check, and Lighthouse CI. Lighthouse assertions are warnings and do not fail the job.
 
 ## Old URLs
 
