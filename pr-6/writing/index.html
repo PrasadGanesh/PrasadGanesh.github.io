@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script>
+  (function () {
+    var key = "theme";
+    var colors = { dark: "#0E1A2B", light: "#FAF7F0" };
+    function systemTheme() {
+      return matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    function active() {
+      var set = document.documentElement.dataset.theme;
+      return set === "light" || set === "dark" ? set : systemTheme();
+    }
+    try {
+      var stored = localStorage.getItem(key);
+      document.documentElement.dataset.theme = stored === "light" || stored === "dark" ? stored : systemTheme();
+    } catch (err) {
+      document.documentElement.dataset.theme = systemTheme();
+    }
+    window.__syncThemeToggle = function () {
+      var btn = document.querySelector("[data-theme-toggle]");
+      if (!btn) return;
+      var dark = active() === "dark";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (tag) {
+        tag.setAttribute("content", colors[active()]);
+      });
+    };
+    window.__toggleTheme = function () {
+      var next = active() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem(key, next);
+      } catch (err) {}
+      window.__syncThemeToggle();
+    };
+  })();
+</script><script>
+  (function () {
+    var done = false;
+    function preload(href) {
+      var link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "font";
+      link.type = "font/woff2";
+      link.crossOrigin = "anonymous";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+    function load() {
+      if (done) return;
+      done = true;
+      preload("/pr-6/fonts/fraunces-latin-400.woff2");
+      preload("/pr-6/fonts/fraunces-latin-400-italic.woff2");
+      var sheet = document.createElement("link");
+      sheet.rel = "stylesheet";
+      sheet.href = "/pr-6/fonts/faces.css";
+      document.head.appendChild(sheet);
+    }
+    try {
+      var observer = new PerformanceObserver(function (list) {
+        if (!list.getEntries().length) return;
+        observer.disconnect();
+        load();
+      });
+      observer.observe({ type: "largest-contentful-paint", buffered: true });
+    } catch (err) {
+      load();
+    }
+    setTimeout(load, 3000);
+  })();
+</script> <noscript> <link rel="stylesheet" href="/pr-6/fonts/faces.css"> </noscript><title>Writing — Ganesh Prasad</title> <meta name="description" content="Notes by Ganesh Prasad."> <link rel="canonical" href="https://prasadganesh.github.io/pr-6/writing/"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#0b1426" media="(prefers-color-scheme: dark)"> <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)"> <meta name="author" content="Ganesh Prasad"> <meta property="og:site_name" content="Ganesh Prasad"> <meta property="og:title" content="Writing — Ganesh Prasad"> <meta property="og:description" content="Notes by Ganesh Prasad."> <meta property="og:type" content="website"> <meta property="og:url" content="https://prasadganesh.github.io/pr-6/writing/"> <meta property="og:image" content="https://prasadganesh.github.io/pr-6/og.png"> <meta property="og:image:alt" content="Open Graph image for Ganesh Prasad."> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="Writing — Ganesh Prasad"> <meta name="twitter:description" content="Notes by Ganesh Prasad."> <meta name="twitter:image" content="https://prasadganesh.github.io/pr-6/og.png"> <meta name="twitter:image:alt" content="Open Graph image for Ganesh Prasad."> <link rel="icon" href="/pr-6/favicon.ico"><style>@font-face{font-family:Fraunces Fallback;font-style:normal;font-weight:400;font-display:block;src:local(Liberation Serif),local(Georgia),local(Times New Roman),local(Nimbus Roman);size-adjust:119%;ascent-override:90%;descent-override:22%;line-gap-override:0%}@font-face{font-family:Fraunces Fallback;font-style:italic;font-weight:400;font-display:block;src:local(Liberation Serif),local(Georgia),local(Times New Roman),local(Nimbus Roman);size-adjust:119%;ascent-override:90%;descent-override:22%;line-gap-override:0%}@font-face{font-family:Inter Fallback;font-style:normal;font-weight:400;font-display:block;src:local(Liberation Sans),local(Arial),local(Helvetica),local(Nimbus Sans);size-adjust:107%;ascent-override:90%;descent-override:22%;line-gap-override:0%}@font-face{font-family:Inter Fallback;font-style:normal;font-weight:600;font-display:block;src:local(Liberation Sans),local(Arial Bold),local(Arial),local(Helvetica),local(Nimbus Sans);size-adjust:107%;ascent-override:90%;descent-override:22%;line-gap-override:0%}:root{--font-display:Fraunces, "Fraunces Fallback", serif;--font-body:Inter, "Inter Fallback", system-ui, sans-serif;--fs-body:16px;--fs-eyebrow:12px;--fs-h3:17px;--fs-h2:28px;--fs-h2-lg:38px;--fs-h1:34px;--fs-h1-lg:52px;--lh-body:1.6;--lh-head:1.15;--sp-1:6px;--sp-2:8px;--sp-3:14px;--sp-4:20px;--sp-5:28px;--sp-6:40px;--sp-7:56px;--sp-8:72px;--gutter-lg:96px;--radius-card:14px;--radius-btn:10px;--bp:900px}:root,[data-theme=dark]{--bg:#0e1a2b;--panel:#13233a;--line:#22385a;--edge:#3a5478;--text:#eef2f7;--muted:#a9b6c8;--amber:#f5b544;--pulse:#f5b544}@media (prefers-color-scheme:light){:root:not([data-theme]){--bg:#faf7f0;--panel:#f2ecdf;--line:#e0d6c2;--edge:#b9ac92;--text:#1b2333;--muted:#3f4a5c;--amber:#6b4400;--pulse:#c47f0a}}[data-theme=light]{--bg:#faf7f0;--panel:#f2ecdf;--line:#e0d6c2;--edge:#b9ac92;--text:#1b2333;--muted:#3f4a5c;--amber:#6b4400;--pulse:#c47f0a}*,:before,:after{box-sizing:border-box}body{background:var(--bg);color:var(--text);font:var(--fs-body) / var(--lh-body) var(--font-body);margin:0}:focus-visible{outline:2px solid var(--amber);outline-offset:3px}::selection{background:var(--amber);color:var(--bg)}a{color:var(--amber)}.skip{left:var(--sp-4);z-index:20;background:var(--amber);min-width:48px;min-height:48px;color:var(--bg);border-radius:var(--radius-btn);justify-content:center;align-items:center;padding:12px 16px;text-decoration:none;display:inline-flex;position:absolute;top:-5rem}.skip:focus{top:var(--sp-2)}.site-header{justify-content:space-between;align-items:center;gap:var(--sp-3);padding:var(--sp-4);font:20px var(--font-display);display:flex}.brand{color:var(--text);text-decoration:none}.header-end{align-items:center;gap:var(--sp-3);font:14px var(--font-body);color:var(--muted);display:flex}.nav ul{flex-wrap:wrap;gap:.35rem;margin:0;padding:0;list-style:none;display:flex}.nav a{min-width:48px;min-height:48px;color:var(--muted);justify-content:center;align-items:center;padding:0 12px;text-decoration:none;display:inline-flex}.nav li:not(:last-child):after{content:"·";color:var(--muted);margin-left:.35rem}.theme-toggle{border:1px solid var(--line);min-width:48px;min-height:48px;color:var(--text);border-radius:var(--radius-btn);cursor:pointer;background:0 0;justify-content:center;align-items:center;margin-left:12px;padding:0;font-size:16px;line-height:1;display:inline-flex}[data-theme=dark] .sun-i,[data-theme=light] .moon-i{display:none}main section{border-top:1px solid var(--line);padding:40px 20px}.hero{border:0;gap:28px;display:grid}.eyebrow{font:600 var(--fs-eyebrow) var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin:0}h1,h2{font-family:var(--font-display);font-style:normal;font-weight:400;line-height:var(--lh-head)}h1{font-size:var(--fs-h1);margin:10px 0 16px}h1 em{color:var(--amber);font-style:italic;font-weight:400}h2{font-size:var(--fs-h2);margin:6px 0 20px}h3{font:600 var(--fs-h3) var(--font-body);margin:0 0 6px}h3 a{color:inherit;text-decoration:none}h3 a:hover{color:var(--amber)}.proof,.muted,.card p,.story dd{color:var(--muted)}.proof{margin:0}.grid{gap:14px;display:grid}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-card);padding:20px}.story dl{gap:8px;margin:10px 0 0;display:grid}.story dt{font:600 12px var(--font-body);letter-spacing:.1em;color:var(--amber);text-transform:uppercase}.story dd{margin:0}.lead{margin:0;padding-left:1.15rem}.lead li{margin:6px 0}.cta{margin-top:20px}.cta a{border:1px solid var(--amber);color:var(--amber);border-radius:var(--radius-btn);margin:0 8px 8px 0;padding:10px 16px;text-decoration:none;display:inline-block}.sys{content-visibility:auto;contain-intrinsic-size:560px 220px;width:100%;max-width:560px;margin:auto;display:block}.sys .e{stroke:var(--edge);stroke-width:1.5px;fill:none}.sys .p{fill:var(--pulse);offset-rotate:0deg;animation:none}.sys.is-live .p{animation:5s linear infinite pulse-travel}.sys rect{fill:var(--panel);stroke:var(--edge)}.sys text{fill:var(--muted);font:12px var(--font-body)}.notes{gap:14px;display:grid}@keyframes pulse-travel{0%{offset-distance:0%;opacity:0}10%{opacity:1}90%{opacity:1}to{offset-distance:100%;opacity:0}}@media (width<=699px){.site-header{align-items:flex-start}.header-end{width:100%}}@media (width>=900px){.site-header,main section{padding-left:var(--gutter-lg);padding-right:var(--gutter-lg)}.hero{padding-top:var(--sp-8);padding-bottom:var(--sp-8)}h1{font-size:var(--fs-h1-lg)}h2{font-size:var(--fs-h2-lg)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}}@media (width>=1100px){.hero{grid-template-columns:1.1fr 1fr;align-items:center}}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sys .p,.sys.is-live .p{opacity:0;animation:none}}.prose{max-width:66ch}.prose p{margin:0 0 1rem}
+</style></head> <body> <a class="skip" href="#content">Skip to content</a> <header class="site-header"> <a class="brand" href="/pr-6/">Ganesh Prasad</a> <div class="header-end"> <nav class="nav" aria-label="Primary"> <ul> <li> <a href="/pr-6/#work">Work</a> </li><li> <a href="/pr-6/#lead">Leading</a> </li><li> <a href="/pr-6/#writing">Writing</a> </li><li> <a href="/pr-6/#contact">Contact</a> </li> </ul> </nav> <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="true" aria-label="Switch to light theme"> <span class="sun-i" aria-hidden="true">☀</span> <span class="moon-i" aria-hidden="true">☾</span> </button> <script>
+      (function () {
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (!btn || btn.dataset.bound === "1" || !window.__syncThemeToggle) return;
+        btn.dataset.bound = "1";
+        window.__syncThemeToggle();
+        btn.addEventListener("click", window.__toggleTheme);
+      })();
+    </script> </div> </header> <main id="content" tabindex="-1">  <section class="section"> <div class="wrap"> <p class="eyebrow"><a href="/pr-6/#writing">Home</a></p> <h1>Writing</h1> <ol class="writing-list block-gap"> <li> <div class="writing-list__row"> <h2> <a href="/pr-6/writing/evidence-grade-bess-telemetry/">Evidence-grade BESS telemetry under the April 2027 CEA rules</a> </h2> <span class="status">published</span> </div> <p>India&#39;s CEA rules for battery energy storage take effect in April 2027. This piece covers what the rules mean for the data a storage system has to record and keep.</p> </li> </ol> </div> </section>  </main> </body> </html>
