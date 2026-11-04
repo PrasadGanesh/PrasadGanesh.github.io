@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 function arg(name) {
@@ -38,7 +38,7 @@ const originTo = `${site}${base}/`;
 const baseName = base.slice(1);
 const already = `${baseName}(?=/|["'#?\\s]|$)`;
 const rootAttribute = new RegExp(
-  String.raw`(href|src|action|poster)\s*=\s*(["'])\/(?!\/|${already})`,
+  String.raw`(?<![\w.])(href|src|action|poster)\s*=\s*(["'])\/(?!\/|${already})`,
   'gi',
 );
 const rootCssUrl = new RegExp(String.raw`url\(\s*(["']?)\/(?!\/|${already})`, 'gi');
@@ -51,6 +51,7 @@ function prefix(content, file) {
   next = next.replace(rootRefresh, `url=${base}/`);
 
   if (file.endsWith('.html')) {
+    next = next.replace(new RegExp(String.raw`(["'])\/(?!\/|${already})`, 'g'), `$1${base}/`);
     const robots = '<meta name="robots" content="noindex, nofollow">';
     if (/<meta\s+name=["']robots["']/i.test(next)) {
       next = next.replace(/<meta\s+name=["']robots["']\s+content=["'][^"']*["']\s*\/?>/gi, robots);
@@ -81,11 +82,20 @@ const home = readFileSync(path.join(dir, 'index.html'), 'utf8');
 const redirect = readFileSync(path.join(dir, 'generic.html'), 'utf8');
 const jqueryPath = path.join(dir, 'blog/assets/js/jquery.min.js');
 const jquery = readFileSync(jqueryPath, 'utf8');
+const facesPath = path.join(dir, 'fonts/faces.css');
+const faces = existsSync(facesPath) ? readFileSync(facesPath, 'utf8') : '';
 const errors = [];
 
 if (!home.includes(`href="${base}/"`)) errors.push('home link was not prefixed');
-if (!home.includes(`url(${base}/fonts/`)) errors.push('font URLs were not prefixed');
-if (home.includes('url(/fonts/')) errors.push('an unprefixed font URL remains');
+const fontsPrefixed =
+  home.includes(`url(${base}/fonts/`) ||
+  home.includes(`"${base}/fonts/`) ||
+  faces.includes(`${base}/fonts/`);
+if (!fontsPrefixed) errors.push('font URLs were not prefixed');
+if (home.includes('url(/fonts/') || home.includes('"/fonts/')) errors.push('an unprefixed font URL remains');
+if (faces.includes('url("/fonts/') || faces.includes('url(/fonts/')) {
+  errors.push('faces.css still points at /fonts/');
+}
 if (!home.includes(`${site}${base}/`)) errors.push('canonical origin was not prefixed');
 if (!home.includes('name="robots" content="noindex, nofollow"')) errors.push('preview home is indexable');
 if (!redirect.includes(`url=${base}/`)) errors.push('generic.html does not redirect inside the preview');
