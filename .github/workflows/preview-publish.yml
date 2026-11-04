@@ -1,0 +1,120 @@
+name: Publish PR preview
+
+on:
+  workflow_run:
+    workflows: ["PR preview"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    outputs:
+      pages_ready: ${{ steps.pages.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Download preview metadata
+        uses: actions/download-artifact@v8
+        with:
+          name: preview-meta
+          path: preview-meta
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Read preview metadata
+        id: meta
+        run: |
+          {
+            echo "action=$(tr -d '\n' < preview-meta/action)"
+            echo "number=$(tr -d '\n' < preview-meta/number)"
+            echo "sha=$(tr -d '\n' < preview-meta/sha)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Download preview site
+        if: steps.meta.outputs.action != 'closed'
+        uses: actions/download-artifact@v8
+        with:
+          name: preview-dist
+          path: preview-dist
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Update previews branch
+        env:
+          PREVIEW_ACTION: ${{ steps.meta.outputs.action }}
+          PR_NUMBER: ${{ steps.meta.outputs.number }}
+          PREVIEW_DIST: preview-dist
+        run: bash scripts/update-previews-branch.sh
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Rebuild production
+        run: |
+          npm ci
+          npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+
+      - name: Assemble production and previews
+        run: node scripts/assemble-site.mjs --dist dist --previews /tmp/gh-pages-previews --out _site
+
+      - name: Check Pages source
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/pages-ready.sh
+
+      - name: Skip publish until Pages uses GitHub Actions
+        if: steps.pages.outputs.ready != 'true'
+        run: |
+          echo "::warning title=GitHub Pages source::${{ steps.pages.outputs.reason }} The preview directory was saved, but the site was not published. See docs/DEPLOY.md."
+
+      - name: Upload Pages artifact
+        if: steps.pages.outputs.ready == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+          include-hidden-files: true
+
+      - name: Update preview comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.meta.outputs.number }}
+          PAGES_READY: ${{ steps.pages.outputs.ready }}
+          SHA: ${{ steps.meta.outputs.sha }}
+          STATUS: ${{ steps.meta.outputs.action == 'closed' && 'removed' || (steps.pages.outputs.ready == 'true' && 'published' || 'built') }}
+        run: bash scripts/preview-comment.sh
+
+  deploy:
+    needs: publish
+    if: needs.publish.outputs.pages_ready == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

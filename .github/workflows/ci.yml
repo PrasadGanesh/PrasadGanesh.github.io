@@ -10,21 +10,77 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
 
       - run: npm ci
+
+      - name: Astro check
+        run: npm run check
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+
       - run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+
       - run: npm run budget
+
+      - name: Read site origin
+        id: site
+        run: |
+          origin="$(node --input-type=module -e "import { siteOrigin } from './site-origin.mjs'; console.log(siteOrigin)")"
+          echo "origin=${origin}" >> "$GITHUB_OUTPUT"
+
+      - name: Old URLs and canonical host
+        run: |
+          set -euo pipefail
+          test -f dist/generic.html
+          test -f dist/elements.html
+          test -f dist/blog/indexblog.html
+          test -f dist/blog/pages/referenceforcpalgo.html
+          test -f dist/SunDayNights.jpg
+          test -f dist/favicon.ico
+          test -f dist/images/pic01.jpg
+          grep -q '${{ steps.site.outputs.origin }}/' dist/index.html
+          grep -q '${{ steps.site.outputs.origin }}/' dist/sitemap-index.xml
+          grep -q '${{ steps.site.outputs.origin }}/sitemap-index.xml' dist/robots.txt
+          grep -q 'href="/"' dist/index.html
+          grep -q 'url=/' dist/generic.html
+
+      - name: Preview prefix keeps production paths intact
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/preview-check /tmp/fake-previews /tmp/assembled
+          cp -a dist /tmp/preview-check
+          node scripts/prefix-preview.mjs --dir /tmp/preview-check --base /pr-0 --site "${{ steps.site.outputs.origin }}"
+          node scripts/prefix-preview.mjs --dir /tmp/preview-check --base /pr-0 --site "${{ steps.site.outputs.origin }}"
+          grep -q 'href="/"' dist/index.html
+          grep -q '/fonts/' dist/index.html
+          if grep -q '/pr-0/' dist/index.html; then
+            echo "Production dist was prefixed"
+            exit 1
+          fi
+          mkdir -p /tmp/fake-previews/pr-0
+          cp -a /tmp/preview-check/. /tmp/fake-previews/pr-0/
+          node scripts/assemble-site.mjs --dist dist --previews /tmp/fake-previews --out /tmp/assembled
+          test -f /tmp/assembled/generic.html
+          test -f /tmp/assembled/pr-0/index.html
+          test ! -f /tmp/assembled/CNAME
+          grep -q 'href="/pr-0/"' /tmp/assembled/pr-0/index.html
 
       - name: Link check
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --config .lychee.toml --root-dir ${{ github.workspace }}/dist --remap "https://ganeshprasad.com file://${{ github.workspace }}/dist" dist
+          args: >-
+            --config .lychee.toml
+            --root-dir ${{ github.workspace }}/dist
+            --remap "${{ steps.site.outputs.origin }} file://${{ github.workspace }}/dist"
+            dist
           fail: true
           token: ${{ secrets.GITHUB_TOKEN }}
 

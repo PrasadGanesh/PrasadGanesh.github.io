@@ -1,10 +1,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { siteOrigin } from './site-origin.mjs';
 
-// Static build. GitHub Pages should publish the `dist/` directory as the site root.
-// Deploy is intentionally not wired here.
+// User site (PrasadGanesh.github.io): pages are served from "/".
+// SITE overrides the origin for a one-off build. See docs/DEPLOY.md.
+const site = (process.env.SITE ?? siteOrigin).replace(/\/$/, '');
+
 export default defineConfig({
-  site: 'https://ganeshprasad.com',
+  site,
   trailingSlash: 'always',
   integrations: [sitemap()],
   build: {
