@@ -8,19 +8,13 @@ interface Props {
   result: string;
 }
 
-const { title, href, problem, tried, worked, result } = Astro.props;
+const { title, href, problem, worked, result } = Astro.props;
 ---
 
 <article class="card story">
   <h3><a href={href}>{title}</a></h3>
-  <dl>
-    <dt>Problem</dt>
-    <dd>{problem}</dd>
-    <dt>Tried</dt>
-    <dd>{tried}</dd>
-    <dt>Worked</dt>
-    <dd>{worked}</dd>
-    <dt>Result</dt>
-    <dd>{result}</dd>
-  </dl>
+  <p class="story-problem">{problem}</p>
+  <p class="story-worked"><span class="label">What worked</span>{worked}</p>
+  <p class="story-result"><span class="label">Result</span>{result}</p>
+  <span class="story-more" aria-hidden="true">Read the case study →</span>
 </article>
