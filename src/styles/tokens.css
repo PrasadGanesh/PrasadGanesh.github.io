@@ -1,102 +1,111 @@
-/*
-  Design tokens. Restyle the site by editing this file only.
-  Colours are drafts. The owner has not picked a final palette.
-
-  Active theme is B, set with data-theme="b" on <html>.
-  Switch to data-theme="a" for the control-room console.
-  The theme-color meta tag in site.ts repeats --color-bg for the active theme.
-
-  Text tokens are paired with --color-bg and --color-surface.
-  Keep body text at or above 4.5:1, and UI boundaries that identify a control
-  at or above 3:1, when these values change.
-
-  Theme B draft (night sky), measured on #0e1320 / #171d2e:
-    text 16.2:1, muted 12.0:1, faint 9.1:1 on bg
-    accent #e7c27a on bg 10.9:1, on-accent on accent 10.8:1
-    line #6d7690 on bg 4.1:1
-*/
-
+/* B2 Leader design tokens. Swap this file when the designer sends a revision.
+   Fraunces and Inter are self-hosted Latin subsets (public/fonts/faces.css),
+   applied after the first paint. The local fallbacks are metric-matched so
+   that swap does not move the hero. */
+@font-face {
+  font-family: "Fraunces Fallback";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Serif"), local("Georgia"), local("Times New Roman"), local("Nimbus Roman");
+  size-adjust: 119%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Fraunces Fallback";
+  font-style: italic;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Serif"), local("Georgia"), local("Times New Roman"), local("Nimbus Roman");
+  size-adjust: 119%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local("Liberation Sans"), local("Arial"), local("Helvetica"), local("Nimbus Sans");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: local("Liberation Sans"), local("Arial Bold"), local("Arial"), local("Helvetica"), local("Nimbus Sans");
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
 :root {
-  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Cascadia Code", Menlo, Consolas, monospace;
-
-  --text-sm: 0.875rem;
-  --text-md: 1.0625rem;
-  --text-lg: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
-  --text-xl: clamp(2.2rem, 1.5rem + 2.2vw, 3.6rem);
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2.75rem;
-  --space-7: 5rem;
-
-  --line: 1px;
-  --measure: 66ch;
-  --header-h: 4.25rem;
-  --duration-flow: 2.8s;
-  --duration-tape: 18s;
-  --ease: linear;
-
-  --focus-ring: 2px solid var(--color-accent);
+  --font-display: Fraunces, "Fraunces Fallback", serif;
+  --font-body: Inter, "Inter Fallback", system-ui, sans-serif;
+  /* type scale (mobile → desktop ≥900px) */
+  --fs-body: 16px;
+  --fs-eyebrow: 12px;
+  --fs-h3: 17px;
+  --fs-h2: 28px;
+  --fs-h2-lg: 38px;
+  --fs-h1: 34px;
+  --fs-h1-lg: 52px;
+  --lh-body: 1.6;
+  --lh-head: 1.15;
+  /* spacing */
+  --sp-1: 6px;
+  --sp-2: 8px;
+  --sp-3: 14px;
+  --sp-4: 20px;
+  --sp-5: 28px;
+  --sp-6: 40px;
+  --sp-7: 56px;
+  --sp-8: 72px;
+  --gutter-lg: 96px;
+  --radius-card: 14px;
+  --radius-btn: 10px;
+  --bp: 900px;
 }
 
-/* B — night-sky editorial. Likely pick. Serif headlines, open hero, no console frame. */
 :root,
-[data-theme="b"] {
-  --color-bg: #0e1320;
-  --color-surface: #171d2e;
-  --color-sunken: #090d18;
-  --color-text: #f4efe6;
-  --color-muted: #d5cfc3;
-  --color-faint: #b7b3c4;
-  --color-accent: #e7c27a;
-  --color-on-accent: #1c1408;
-  --color-line: #6d7690;
-  --color-ok: #c5e0b0;
-  --color-grid: #1c2436;
-
-  --font-display: var(--font-serif);
-  --display-weight: 500;
-  --display-track: 0;
-  --kicker-font: var(--font-sans);
-  --kicker-transform: none;
-  --kicker-track: 0;
-
-  --hero-plate: transparent;
-  --hero-border: 0 solid transparent;
-  --button-bg: transparent;
-  --button-fg: var(--color-accent);
-  --button-border: var(--color-accent);
+[data-theme="dark"] {
+  --bg: #0e1a2b;
+  --panel: #13233a;
+  --line: #22385a;
+  --edge: #3a5478;
+  --text: #eef2f7;
+  --muted: #a9b6c8;
+  --amber: #f5b544;
+  --pulse: #f5b544;
 }
 
-/* A — control-room console. Sans headlines, framed hero, mono kickers. */
-[data-theme="a"] {
-  --color-bg: #10130c;
-  --color-surface: #1b2016;
-  --color-sunken: #0b0d09;
-  --color-text: #f4f1e6;
-  --color-muted: #d2cbb8;
-  --color-faint: #b7c0a4;
-  --color-accent: #ffc14d;
-  --color-on-accent: #1c1404;
-  --color-line: #6d7a57;
-  --color-ok: #c6ef9a;
-  --color-grid: #24301c;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #faf7f0;
+    --panel: #f2ecdf;
+    --line: #e0d6c2;
+    --edge: #b9ac92;
+    --text: #1b2333;
+    --muted: #3f4a5c;
+    --amber: #6b4400;
+    --pulse: #c47f0a;
+  }
+}
 
-  --font-display: var(--font-sans);
-  --display-weight: 600;
-  --display-track: -0.02em;
-  --kicker-font: var(--font-mono);
-  --kicker-transform: uppercase;
-  --kicker-track: 0.06em;
-
-  --hero-plate: var(--color-bg);
-  --hero-border: var(--line) solid var(--color-line);
-  --button-bg: var(--color-accent);
-  --button-fg: var(--color-on-accent);
-  --button-border: var(--color-accent);
+[data-theme="light"] {
+  --bg: #faf7f0;
+  --panel: #f2ecdf;
+  --line: #e0d6c2;
+  --edge: #b9ac92;
+  --text: #1b2333;
+  --muted: #3f4a5c;
+  --amber: #6b4400;
+  --pulse: #c47f0a;
 }

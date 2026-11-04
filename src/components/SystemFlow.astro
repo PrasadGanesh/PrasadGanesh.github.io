@@ -1,53 +1,41 @@
----
-const rows = [
-  ['REQ', 'sample'],
-  ['QUEUE', 'sample'],
-  ['API', 'sample'],
-  ['JOB', 'sample'],
-  ['ROW', 'sample'],
-  ['CACHE', 'sample'],
-  ['LOG', 'sample'],
-  ['ACK', 'sample'],
-];
-const tape = [...rows, ...rows];
----
-
-<figure class="stream">
-  <div class="stream__toolbar">
-    <p class="kicker">Sample data</p>
-    <label class="pause">
-      <input class="stream-motion" type="checkbox" />
-      <span class="pause__on">Pause sample animation</span>
-      <span class="pause__off">Play sample animation</span>
-    </label>
-  </div>
-  <div class="stream__stage">
-    <svg viewBox="0 0 560 320" aria-hidden="true" focusable="false">
-      <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <rect x="36" y="118" width="110" height="64"></rect>
-        <rect x="226" y="118" width="110" height="64"></rect>
-        <rect x="416" y="118" width="110" height="64"></rect>
-        <path class="flow is-animated" d="M146 150H226"></path>
-        <path class="flow is-animated" d="M336 150H416"></path>
-        <path class="flow is-animated" d="M281 182v46H146"></path>
-        <path class="flow is-animated" d="M146 228H90v-46"></path>
-      </g>
-      <text x="91" y="155" text-anchor="middle">INGEST</text>
-      <text x="281" y="155" text-anchor="middle">SERVICE</text>
-      <text x="471" y="155" text-anchor="middle">STORE</text>
-    </svg>
-    <div class="tape" aria-hidden="true">
-      <ul class="tape__track is-animated">
-        {
-          tape.map(([channel, value]) => (
-            <li>
-              <span>{channel}</span>
-              <span>{value}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </div>
-  <figcaption>Sample data. A sketch of a system flow, not a live trace.</figcaption>
-</figure>
+<svg class="sys" viewBox="0 0 560 300" role="img" aria-label="Abstract diagram: data sources flow through pipeline and API nodes into services">
+  <path id="e1" class="e" d="M90 60 C180 60 180 110 250 110"></path>
+  <path id="e2" class="e" d="M90 150 L250 110"></path>
+  <path id="e3" class="e" d="M90 240 C180 240 180 200 250 200"></path>
+  <path id="e4" class="e" d="M90 150 L250 200"></path>
+  <path id="e5" class="e" d="M310 110 C380 110 380 70 460 70"></path>
+  <path id="e6" class="e" d="M310 110 L460 150"></path>
+  <path id="e7" class="e" d="M310 200 L460 150"></path>
+  <path id="e8" class="e" d="M310 200 C380 200 380 230 460 230"></path>
+  <g>
+    <rect x="20" y="44" width="70" height="32" rx="8"></rect>
+    <text x="32" y="65">source</text>
+    <rect x="20" y="134" width="70" height="32" rx="8"></rect>
+    <text x="32" y="155">events</text>
+    <rect x="20" y="224" width="70" height="32" rx="8"></rect>
+    <text x="32" y="245">source</text>
+    <rect x="250" y="94" width="60" height="32" rx="8"></rect>
+    <text x="256" y="115">pipeline</text>
+    <rect x="250" y="184" width="60" height="32" rx="8"></rect>
+    <text x="268" y="205">API</text>
+    <rect x="460" y="54" width="80" height="32" rx="8"></rect>
+    <text x="472" y="75">service</text>
+    <rect x="460" y="134" width="80" height="32" rx="8"></rect>
+    <text x="472" y="155">service</text>
+    <rect x="460" y="214" width="80" height="32" rx="8"></rect>
+    <text x="472" y="235">service</text>
+  </g>
+  <circle class="p" r="4" style="offset-path:path('M90 60 C180 60 180 110 250 110')"></circle>
+  <circle class="p" r="4" style="offset-path:path('M90 150 L250 200');animation-delay:1.2s"></circle>
+  <circle class="p" r="4" style="offset-path:path('M90 240 C180 240 180 200 250 200');animation-delay:2.4s"></circle>
+  <circle class="p" r="4" style="offset-path:path('M310 110 C380 110 380 70 460 70');animation-delay:.6s"></circle>
+  <circle class="p" r="4" style="offset-path:path('M310 200 L460 150');animation-delay:1.8s"></circle>
+  <circle class="p" r="4" style="offset-path:path('M310 200 C380 200 380 230 460 230');animation-delay:3s"></circle>
+</svg>
+<script is:inline>
+  window.addEventListener("load", function () {
+    var diagram = document.querySelector(".sys");
+    if (!diagram || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    diagram.classList.add("is-live");
+  });
+</script>

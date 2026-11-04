@@ -5,15 +5,36 @@ import { nav, site } from '../data/site';
 <a class="skip" href="#content">Skip to content</a>
 <header class="site-header">
   <a class="brand" href="/">{site.name}</a>
-  <nav class="nav" aria-label="Primary">
-    <ul>
-      {
-        nav.map((item) => (
-          <li>
-            <a href={item.href}>{item.label}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+  <div class="header-end">
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button
+      type="button"
+      class="theme-toggle"
+      data-theme-toggle
+      aria-pressed="true"
+      aria-label="Switch to light theme"
+    >
+      <span class="sun-i" aria-hidden="true">☀</span>
+      <span class="moon-i" aria-hidden="true">☾</span>
+    </button>
+    <script is:inline>
+      (function () {
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (!btn || btn.dataset.bound === "1" || !window.__syncThemeToggle) return;
+        btn.dataset.bound = "1";
+        window.__syncThemeToggle();
+        btn.addEventListener("click", window.__toggleTheme);
+      })();
+    </script>
+  </div>
 </header>

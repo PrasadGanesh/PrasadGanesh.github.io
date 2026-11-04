@@ -5,10 +5,10 @@ import Base from '../../layouts/Base.astro';
 const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title="Writing — Ganesh Prasad" description="Notes by Ganesh Prasad. The pieces here are still stubs.">
+<Base title="Writing — Ganesh Prasad" description="Notes by Ganesh Prasad.">
   <section class="section">
     <div class="wrap">
-      <p class="kicker"><a href="/#writing">Home</a></p>
+      <p class="eyebrow"><a href="/#writing">Home</a></p>
       <h1>Writing</h1>
       <ol class="writing-list block-gap">
         {

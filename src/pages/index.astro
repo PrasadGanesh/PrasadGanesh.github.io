@@ -3,205 +3,209 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SystemFlow from '../components/SystemFlow.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
-import { earlier, site } from '../data/site';
+import PoseFallback from '../components/PoseFallback.astro';
+import Desk from '../components/character/Desk.astro';
+import Pipes from '../components/character/Pipes.astro';
+import Tests from '../components/character/Tests.astro';
+import Payment from '../components/character/Payment.astro';
+import Wave from '../components/character/Wave.astro';
+import { site } from '../data/site';
 
 const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
 const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.data.order);
+const poseFor: Record<string, string> = {
+  'owning-a-data-platform': 'pipes',
+  'automated-fault-scoring': 'tests',
+  'ecommerce-payment-reconciliation': 'payment',
+};
+const payments = studies.find((study) => study.id === 'ecommerce-payment-reconciliation');
+if (!payments) throw new Error('Missing payments case study');
 ---
 
-<Base title={site.title} description={site.description} jsonLd>
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__copy">
-      <p class="kicker">{site.name}</p>
-      <h1 id="hero-title">
-        Data and backend engineer. I build the platforms teams run on, and I lead the people who build them.
-      </h1>
-      <p class="proof">
-        ~3.5 years building Python backends, then owning a data platform end to end. M.Tech, IIT Ropar.
-      </p>
-      <p class="hero__links">
-        <a href="#case-studies">Case studies</a>
-        <a href="#contact">Contact</a>
-      </p>
-    </div>
-    <div class="hero__stream">
-      <SystemFlow />
-    </div>
-  </section>
-
-  <section class="section" id="work" aria-labelledby="work-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Work</p>
-        <h2 id="work-title">What I do</h2>
-      </header>
-      <div class="work-grid">
-        <article class="plate">
-          <h3>Data platforms</h3>
-          <ul class="stack">
-            <li>Spark</li>
-            <li>Airflow</li>
-            <li>Time-series</li>
-            <li>Pipelines</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>Backend systems</h3>
-          <ul class="stack">
-            <li>FastAPI</li>
-            <li>Django</li>
-            <li>APIs</li>
-            <li>MongoDB</li>
-            <li>Postgres</li>
-            <li>Redis</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>AI agents and applied ML</h3>
-          <p>Agents and applied ML, treated as production systems.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="case-studies" aria-labelledby="case-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Cases</p>
-        <h2 id="case-title">Case studies</h2>
-        <p class="lede">
-          Engineering and leadership. The domain, including solar, is context. Figures are still placeholders.
+<Base
+  title={site.title}
+  description={site.description}
+  ogTitle={site.ogTitle}
+  ogDescription={site.ogDescription}
+  jsonLd
+>
+  <div class="cast">
+    <div class="cast-flow">
+  <div class="beat" data-pose="desk">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Data · Backend · Leadership</p>
+        <h1 id="hero-title">
+          Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
+        </h1>
+        <p class="proof">
+          I own a data platform end to end that covers more than 100 plants and takes in millions of sensor readings a
+          day. Before that I spent about 3.5 years building Python backends. M.Tech CS, IIT Ropar.
         </p>
-      </header>
-      <div class="cases">
-        {
-          studies.map((study) => (
+        <p class="cta">
+          <a href="#work">See the case studies</a>
+          <a href="#contact">Get in touch</a>
+        </p>
+      </div>
+      <SystemFlow />
+    </section>
+    <div class="pin" aria-hidden="true">
+      <Desk />
+    </div>
+    <section class="kinds" aria-labelledby="work-kinds-title">
+      <p class="eyebrow">What I do</p>
+      <h2 id="work-kinds-title">Three kinds of systems</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Data platforms</h3>
+          <p>Ingestion, pipelines, and storage for high-volume time-series data. Spark, Airflow, AWS Timestream, S3.</p>
+        </div>
+        <div class="card">
+          <h3>Backend systems</h3>
+          <p>APIs and services that hold up under real traffic and real money. FastAPI, Django, MongoDB, Redis, Docker.</p>
+        </div>
+        <div class="card">
+          <h3>AI agents &amp; applied ML</h3>
+          <p>Models and agents that sit inside production systems, measured against real data before they ship.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {
+    studies.filter((study) => study.id !== 'ecommerce-payment-reconciliation').map((study) => {
+      const pose = poseFor[study.id];
+      return (
+        <div class="beat" data-pose={pose} id={study.id === 'owning-a-data-platform' ? 'work' : undefined}>
+          <div class="pin" aria-hidden="true">
+            {pose === 'pipes' && <Pipes />}
+            {pose === 'tests' && <Tests />}
+            {pose === 'payment' && <Payment />}
+          </div>
+          <section aria-labelledby={study.id === 'owning-a-data-platform' ? 'case-title' : undefined}>
+            {study.id === 'owning-a-data-platform' && (
+              <>
+                <p class="eyebrow">Case studies</p>
+                <h2 id="case-title">Engineering and leadership stories</h2>
+              </>
+            )}
             <CaseStudyCard
-              id={study.id}
               href={`/case-studies/${study.id}/`}
               title={study.data.title}
               problem={study.data.problem}
               tried={study.data.tried}
               worked={study.data.worked}
               result={study.data.result}
-              metrics={study.data.metrics}
-              stack={study.data.stack}
             />
-          ))
-        }
-      </div>
+          </section>
+        </div>
+      );
+    })
+  }
+
+  <div class="beat" data-pose="payment">
+    <div class="pin" aria-hidden="true">
+      <Payment />
+    </div>
+    <section>
+      <CaseStudyCard
+        href="/case-studies/ecommerce-payment-reconciliation/"
+        title={payments.data.title}
+        problem={payments.data.problem}
+        tried={payments.data.tried}
+        worked={payments.data.worked}
+        result={payments.data.result}
+      />
+    </section>
+    <div class="rail">
+  <section id="lead" aria-labelledby="lead-title">
+    <p class="eyebrow">How I lead</p>
+    <h2 id="lead-title">Habits, not titles</h2>
+    <ul class="lead">
+      <li>
+        <b>Design reviews</b>
+        <span class="muted">
+          — I ask for a short written design before work starts, and I review it for failure modes and cost before I look
+          at style.
+        </span>
+      </li>
+      <li>
+        <b>Mentoring</b>
+        <span class="muted">
+          — I pair on real work, explain why each choice was made, and give people the parts of the system that will
+          stretch them.
+        </span>
+      </li>
+      <li>
+        <b>Simple tech choices</b>
+        <span class="muted">
+          — I pick the boring tool the team already knows unless the data proves we need something else.
+        </span>
+      </li>
+      <li>
+        <b>Release discipline</b>
+        <span class="muted">
+          — Small changes, tested on real data, shipped behind a way to roll back. I don't skip a step to save a day.
+        </span>
+      </li>
+      <li>
+        <b>Unclear asks → specs</b>
+        <span class="muted">
+          — I turn a vague request into a one-page spec covering inputs, outputs, edge cases, and what "done" means, and
+          I get sign-off before we build.
+        </span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="writing" aria-labelledby="writing-title">
+    <p class="eyebrow">Writing</p>
+    <h2 id="writing-title">Notes</h2>
+    <p>
+      <a href={site.medium}>More on Medium</a>
+    </p>
+    <div class="notes">
+      {
+        essays.map((essay) => (
+          <div class="card">
+            <h3>
+              <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
+            </h3>
+            <p>{essay.data.summary}</p>
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <section class="section" id="lead" aria-labelledby="lead-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Leadership</p>
-        <h2 id="lead-title">How I lead</h2>
-      </header>
-      <ul class="lead-list">
-        <li>Design reviews</li>
-        <li>Mentoring</li>
-        <li>Simple tech choices</li>
-        <li>Release discipline</li>
-        <li>Turning unclear asks into specs</li>
-      </ul>
-    </div>
+  <section aria-labelledby="foundations-title">
+    <p class="eyebrow" id="foundations-title">Foundations</p>
+    <p>
+      M.Tech in Computer Science, IIT Ropar (2018–2020). Projects: permutation-based indexing for similarity search,
+      KD-tree and quadtree range queries, fingerprint recognition, and facial-expression recognition at 78% accuracy.
+      MongoDB certified. I speak English and Hindi, and some German.
+    </p>
   </section>
 
-  <section class="section" id="live-demo" aria-labelledby="live-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Demo</p>
-        <h2 id="live-title">Sample data</h2>
-        <p class="lede">
-          A soiling-loss chart from solar telemetry. Proof of the platform work. The series is synthetic.
-        </p>
-      </header>
-      <link rel="stylesheet" href="/widget/soiling-widget.css" />
-      <div class="sw" data-soiling data-src="/widget/data.json"></div>
-      <script is:inline src="/widget/soiling-widget.js" defer></script>
     </div>
-  </section>
+  </div>
 
-  <section class="section" id="writing" aria-labelledby="writing-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Notes</p>
-        <h2 id="writing-title">Writing</h2>
-      </header>
-      <ol class="writing-list">
-        {
-          essays.map((essay) => (
-            <li>
-              <div class="writing-list__row">
-                <h3>
-                  <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
-                </h3>
-                <span class="status">{essay.data.status}</span>
-              </div>
-              <p>{essay.data.summary}</p>
-            </li>
-          ))
-        }
-      </ol>
+  <div class="beat" data-pose="wave">
+    <div class="pin" aria-hidden="true">
+      <Wave />
     </div>
-  </section>
-
-  <section class="section" id="foundations" aria-labelledby="foundations-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Background</p>
-        <h2 id="foundations-title">Foundations</h2>
-      </header>
-      <div class="foundation-grid">
-        <article class="plate">
-          <h3>M.Tech CS, IIT Ropar (2018–2020)</h3>
-          <h3>Research</h3>
-          <ul class="plain-list">
-            <li>Permutation-based indexing for big-data search</li>
-            <li>KD-trees and quadtrees</li>
-            <li>Facial-expression recognition (78% accuracy)</li>
-          </ul>
-        </article>
-        <article class="plate">
-          <h3>Earlier</h3>
-          <ul class="earlier">
-            {
-              earlier.map((item) => (
-                <li>
-                  <a href={item.href}>{item.title}</a>
-                  <p>{item.detail}</p>
-                </li>
-              ))
-            }
-          </ul>
-        </article>
-      </div>
+    <section id="contact" aria-labelledby="contact-title">
+      <p class="eyebrow" id="contact-title">Contact</p>
+      <p>The best way to reach me is email. I reply to work inquiries.</p>
+      <p class="cta">
+        <a href={`mailto:${site.email}`}>Email</a>
+        <a href={site.linkedin}>LinkedIn</a>
+        <a href={site.github}>GitHub</a>
+        <a href={site.medium}>Medium</a>
+      </p>
+    </section>
+  </div>
     </div>
-  </section>
-
-  <section class="section" id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <header class="section-head">
-        <p class="kicker">Reach</p>
-        <h2 id="contact-title">Contact</h2>
-      </header>
-      <ul class="contact-list">
-        <li>
-          <a href={`mailto:${site.email}`}>Email <span>{site.email}</span></a>
-        </li>
-        <li>
-          <a href={site.linkedin} rel="me noreferrer">
-            LinkedIn <span>linkedin.com/in/ganesh-prasad</span>
-          </a>
-        </li>
-        <li>
-          <a href={site.github} rel="me noreferrer">
-            GitHub <span>github.com/PrasadGanesh</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
+  </div>
+  <PoseFallback />
 </Base>

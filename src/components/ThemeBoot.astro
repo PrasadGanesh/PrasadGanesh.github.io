@@ -1,0 +1,37 @@
+<script is:inline>
+  (function () {
+    var key = "theme";
+    var colors = { dark: "#0E1A2B", light: "#FAF7F0" };
+    function systemTheme() {
+      return matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    function active() {
+      var set = document.documentElement.dataset.theme;
+      return set === "light" || set === "dark" ? set : systemTheme();
+    }
+    try {
+      var stored = localStorage.getItem(key);
+      document.documentElement.dataset.theme = stored === "light" || stored === "dark" ? stored : systemTheme();
+    } catch (err) {
+      document.documentElement.dataset.theme = systemTheme();
+    }
+    window.__syncThemeToggle = function () {
+      var btn = document.querySelector("[data-theme-toggle]");
+      if (!btn) return;
+      var dark = active() === "dark";
+      btn.setAttribute("aria-pressed", dark ? "true" : "false");
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (tag) {
+        tag.setAttribute("content", colors[active()]);
+      });
+    };
+    window.__toggleTheme = function () {
+      var next = active() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem(key, next);
+      } catch (err) {}
+      window.__syncThemeToggle();
+    };
+  })();
+</script>

@@ -6,6 +6,8 @@ const caseStudies = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/case-studies' }),
   schema: z.object({
     title: z.string(),
+    summary: z.string(),
+    description: z.string(),
     problem: z.string(),
     tried: z.string(),
     worked: z.string(),

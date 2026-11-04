@@ -1,24 +1,23 @@
 export const site = {
   name: 'Ganesh Prasad',
-  title: 'Ganesh Prasad — Data and backend engineer',
+  title: 'Ganesh Prasad: Data and backend engineer',
   description:
-    'Ganesh Prasad is a data and backend engineer. He builds the platforms teams run on, and he leads the people who build them.',
+    'Data and backend engineer. I build data platforms and backend systems in Python, Spark, and Airflow, and I lead the teams that build them.',
+  ogTitle: 'Ganesh Prasad: Data and backend engineer who leads',
+  ogDescription:
+    'I own a data platform that handles millions of sensor readings a day, and I spent 3.5 years before that building Python backends.',
   email: 'ganeshprasad227@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ganesh-prasad/',
   github: 'https://github.com/PrasadGanesh',
-  medium: 'https://ganeshprasad227.medium.com',
+  medium: 'https://ganeshprasad227.medium.com/',
   resume:
     'https://drive.google.com/file/d/15hS3R7N3NwGuQ6dq1THi9Q5rEtmKaW_3/view?usp=sharing',
-  themeColor: '#0e1320',
 } as const;
 
 export const nav = [
-  { href: '/#work', label: 'What I do' },
-  { href: '/#case-studies', label: 'Case studies' },
-  { href: '/#lead', label: 'How I lead' },
-  { href: '/#live-demo', label: 'Demo' },
+  { href: '/#work', label: 'Work' },
+  { href: '/#lead', label: 'Leading' },
   { href: '/#writing', label: 'Writing' },
-  { href: '/#foundations', label: 'Foundations' },
   { href: '/#contact', label: 'Contact' },
 ] as const;
 
