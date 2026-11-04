@@ -1,4 +1,0 @@
-/* Character tokens — extend b2-tokens.css */
-:root,[data-theme=dark]{--ch-outline:#EEF2F7;--ch-skin:#A86F4C;--ch-lip:#D9A27E;--ch-hair:#15110F;--char-beard:#3A2A22;--ch-jacket:#3B5B8C;--ch-tee:#1F2430;--ch-scarf:#7A4A36;--ch-accent:#F5B544;--ch-prop:#13233A;--ch-mark:#3DDC97;--ch-warn:#FF7A6B}
-[data-theme=light]{--ch-outline:#1B2333;--ch-skin:#B07650;--ch-lip:#E0AE8C;--ch-hair:#15110F;--char-beard:#4A3328;--ch-jacket:#3E5F92;--ch-tee:#262B36;--ch-scarf:#8A5440;--ch-accent:#A36800;--ch-prop:#F2ECDF;--ch-mark:#1F8A5B;--ch-warn:#C2412F}
-@media (prefers-color-scheme:light){:root:not([data-theme]){--ch-outline:#1B2333;--ch-skin:#B07650;--ch-lip:#E0AE8C;--ch-hair:#15110F;--char-beard:#4A3328;--ch-jacket:#3E5F92;--ch-tee:#262B36;--ch-scarf:#8A5440;--ch-accent:#A36800;--ch-prop:#F2ECDF;--ch-mark:#1F8A5B;--ch-warn:#C2412F}}

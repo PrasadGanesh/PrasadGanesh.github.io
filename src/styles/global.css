@@ -1,6 +1,4 @@
 @import "./tokens.css";
-@import "./character-tokens.css";
-@import "./character.css";
 
 *,
 *::before,
@@ -340,15 +338,6 @@ h3 a:hover {
   .hero {
     grid-template-columns: 1.1fr 1fr;
     align-items: center;
-  }
-}
-
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .cast section {
-      padding-left: 0;
-      padding-right: 0;
-    }
   }
 }
 
