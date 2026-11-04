@@ -4,7 +4,7 @@ import { siteOrigin } from './site-origin.mjs';
 
 // User site (PrasadGanesh.github.io): pages are served from "/".
 // SITE overrides the origin for a one-off build. See docs/DEPLOY.md.
-const site = (process.env.SITE ?? siteOrigin).replace(/\/$/, '');
+const site = (process.env.SITE ?? siteOrigin ?? 'https://prasadganesh.github.io').replace(/\/$/, '');
 
 export default defineConfig({
   site,

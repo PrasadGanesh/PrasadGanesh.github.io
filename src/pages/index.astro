@@ -17,138 +17,145 @@ const essays = (await getCollection('essays')).sort((a, b) => a.data.order - b.d
   jsonLd
 >
   <section class="hero" aria-labelledby="hero-title">
-    <div>
-      <p class="eyebrow">Data · Backend · Leadership</p>
-      <h1 id="hero-title">
-        Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
-      </h1>
-      <p class="proof">
-        I own a data platform end to end that covers more than 100 plants and takes in millions of sensor readings a
-        day. Before that I spent about 3.5 years building Python backends. M.Tech CS, IIT Ropar.
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Data · Backend · Leadership</p>
+        <h1 id="hero-title">
+          Data and backend engineer. <em>I build the platforms teams run on, and I lead the people who build them.</em>
+        </h1>
+        <p class="proof">
+          I own a data platform end to end that covers more than 100 plants and takes in millions of sensor readings a
+          day. Before that I spent about 3.5 years building Python backends. M.Tech CS, IIT Ropar.
+        </p>
+        <p class="cta">
+          <a class="btn btn--primary" href="#work">See the case studies</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </p>
+      </div>
+      <figure class="hero-visual">
+        <SystemFlow />
+        <figcaption>Sources → pipelines and APIs → the services teams depend on.</figcaption>
+      </figure>
+    </div>
+    <div class="wrap">
+      <dl class="stats">
+        <div><dt>Plants on the platform</dt><dd>100+</dd></div>
+        <div><dt>Sensor readings</dt><dd>Millions / day</dd></div>
+        <div><dt>Python backends</dt><dd>~3.5 yrs</dd></div>
+        <div><dt>M.Tech CS</dt><dd>IIT Ropar</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="work-kinds-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">What I do</p>
+        <h2 id="work-kinds-title">Three kinds of systems</h2>
+      </header>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Data platforms</h3>
+          <p>Ingestion, pipelines, and storage for high-volume time-series data. Spark, Airflow, AWS Timestream, S3.</p>
+        </div>
+        <div class="card">
+          <h3>Backend systems</h3>
+          <p>APIs and services that hold up under real traffic and real money. FastAPI, Django, MongoDB, Redis, Docker.</p>
+        </div>
+        <div class="card">
+          <h3>AI agents &amp; applied ML</h3>
+          <p>Models and agents that sit inside production systems, measured against real data before they ship.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="band band--alt" aria-labelledby="case-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">Case studies</p>
+        <h2 id="case-title">Engineering and leadership stories</h2>
+      </header>
+      <div class="grid g3">
+        {
+          studies.map((study) => (
+            <CaseStudyCard
+              href={`/case-studies/${study.id}/`}
+              title={study.data.title}
+              problem={study.data.problem}
+              tried={study.data.tried}
+              worked={study.data.worked}
+              result={study.data.result}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="lead" class="band" aria-labelledby="lead-title">
+    <div class="wrap split">
+      <header class="section-head">
+        <p class="eyebrow">How I lead</p>
+        <h2 id="lead-title">Habits, not titles</h2>
+      </header>
+      <ol class="lead">
+        <li><h3>Design reviews</h3><p>I ask for a short written design before work starts, and I review it for failure modes and cost before I look at style.</p></li>
+        <li><h3>Mentoring</h3><p>I pair on real work, explain why each choice was made, and give people the parts of the system that will stretch them.</p></li>
+        <li><h3>Simple tech choices</h3><p>I pick the boring tool the team already knows unless the data proves we need something else.</p></li>
+        <li><h3>Release discipline</h3><p>Small changes, tested on real data, shipped behind a way to roll back. I don't skip a step to save a day.</p></li>
+        <li><h3>Unclear asks → specs</h3><p>I turn a vague request into a one-page spec covering inputs, outputs, edge cases, and what "done" means, and I get sign-off before we build.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="writing" class="band band--alt" aria-labelledby="writing-title">
+    <div class="wrap">
+      <header class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Writing</p>
+          <h2 id="writing-title">Notes</h2>
+        </div>
+        <a class="btn" href={site.medium}>More on Medium</a>
+      </header>
+      <div class="grid g3">
+        {
+          essays.map((essay) => (
+            <article class="card card--link">
+              <h3><a href={`/writing/${essay.id}/`}>{essay.data.title}</a></h3>
+              <p>{essay.data.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="foundations-title">
+    <div class="wrap split">
+      <header class="section-head">
+        <p class="eyebrow">Foundations</p>
+        <h2 id="foundations-title">Where the habits come from</h2>
+      </header>
+      <p class="body-lg">
+        M.Tech in Computer Science, IIT Ropar (2018–2020). Projects: permutation-based indexing for similarity search,
+        KD-tree and quadtree range queries, fingerprint recognition, and facial-expression recognition at 78% accuracy.
+        MongoDB certified. I speak English and Hindi, and some German.
       </p>
+    </div>
+  </section>
+
+  <section id="contact" class="band band--contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title" class="display">The best way to reach me is email.</h2>
+      <p class="proof">I reply to work inquiries.</p>
       <p class="cta">
-        <a href="#work">See the case studies</a>
-        <a href="#contact">Get in touch</a>
+        <a class="btn btn--primary" href={`mailto:${site.email}`}>Email me</a>
+        <a class="btn" href={site.linkedin}>LinkedIn</a>
+        <a class="btn" href={site.github}>GitHub</a>
+        <a class="btn" href={site.medium}>Medium</a>
       </p>
     </div>
-    <SystemFlow />
-  </section>
-
-  <section aria-labelledby="work-kinds-title">
-    <p class="eyebrow">What I do</p>
-    <h2 id="work-kinds-title">Three kinds of systems</h2>
-    <div class="grid g3">
-      <div class="card">
-        <h3>Data platforms</h3>
-        <p>Ingestion, pipelines, and storage for high-volume time-series data. Spark, Airflow, AWS Timestream, S3.</p>
-      </div>
-      <div class="card">
-        <h3>Backend systems</h3>
-        <p>APIs and services that hold up under real traffic and real money. FastAPI, Django, MongoDB, Redis, Docker.</p>
-      </div>
-      <div class="card">
-        <h3>AI agents &amp; applied ML</h3>
-        <p>Models and agents that sit inside production systems, measured against real data before they ship.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="work" aria-labelledby="case-title">
-    <p class="eyebrow">Case studies</p>
-    <h2 id="case-title">Engineering and leadership stories</h2>
-    <div class="grid g2">
-      {
-        studies.map((study) => (
-          <CaseStudyCard
-            href={`/case-studies/${study.id}/`}
-            title={study.data.title}
-            problem={study.data.problem}
-            tried={study.data.tried}
-            worked={study.data.worked}
-            result={study.data.result}
-          />
-        ))
-      }
-    </div>
-  </section>
-
-  <section id="lead" aria-labelledby="lead-title">
-    <p class="eyebrow">How I lead</p>
-    <h2 id="lead-title">Habits, not titles</h2>
-    <ul class="lead">
-      <li>
-        <b>Design reviews</b>
-        <span class="muted">
-          — I ask for a short written design before work starts, and I review it for failure modes and cost before I look
-          at style.
-        </span>
-      </li>
-      <li>
-        <b>Mentoring</b>
-        <span class="muted">
-          — I pair on real work, explain why each choice was made, and give people the parts of the system that will
-          stretch them.
-        </span>
-      </li>
-      <li>
-        <b>Simple tech choices</b>
-        <span class="muted">
-          — I pick the boring tool the team already knows unless the data proves we need something else.
-        </span>
-      </li>
-      <li>
-        <b>Release discipline</b>
-        <span class="muted">
-          — Small changes, tested on real data, shipped behind a way to roll back. I don't skip a step to save a day.
-        </span>
-      </li>
-      <li>
-        <b>Unclear asks → specs</b>
-        <span class="muted">
-          — I turn a vague request into a one-page spec covering inputs, outputs, edge cases, and what "done" means, and
-          I get sign-off before we build.
-        </span>
-      </li>
-    </ul>
-  </section>
-
-  <section id="writing" aria-labelledby="writing-title">
-    <p class="eyebrow">Writing</p>
-    <h2 id="writing-title">Notes</h2>
-    <p>
-      <a href={site.medium}>More on Medium</a>
-    </p>
-    <div class="notes">
-      {
-        essays.map((essay) => (
-          <div class="card">
-            <h3>
-              <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
-            </h3>
-            <p>{essay.data.summary}</p>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <section aria-labelledby="foundations-title">
-    <p class="eyebrow" id="foundations-title">Foundations</p>
-    <p>
-      M.Tech in Computer Science, IIT Ropar (2018–2020). Projects: permutation-based indexing for similarity search,
-      KD-tree and quadtree range queries, fingerprint recognition, and facial-expression recognition at 78% accuracy.
-      MongoDB certified. I speak English and Hindi, and some German.
-    </p>
-  </section>
-
-  <section id="contact" aria-labelledby="contact-title">
-    <p class="eyebrow" id="contact-title">Contact</p>
-    <p>The best way to reach me is email. I reply to work inquiries.</p>
-    <p class="cta">
-      <a href={`mailto:${site.email}`}>Email</a>
-      <a href={site.linkedin}>LinkedIn</a>
-      <a href={site.github}>GitHub</a>
-      <a href={site.medium}>Medium</a>
-    </p>
   </section>
 </Base>
